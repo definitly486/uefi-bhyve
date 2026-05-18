@@ -6,4 +6,4 @@ wine oscdimg.exe -m -o -u2 \
 
 
 arp-scan --localnet
-xfreerdp /u:vcore  /p: /w:1918 /h:1045  /v:192.168.8.103   /drive:home,/home/definitly  /sound /tls-seclevel:0 -sec-nla 
+xfreerdp /u:Administrator  /p: /w:1918 /h:1045  /v:192.168.8.103   /drive:home,/home/definitly  /sound /tls-seclevel:0 -sec-nla 
