@@ -37,6 +37,17 @@ reg add "HKLM\OfflineSystem\ControlSet001\Control\Terminal Server" /v fDenyTSCon
 :: Настройка службы Терминального сервера на автоматический запуск (опционально)
 reg add "HKLM\OfflineSystem\ControlSet001\Services\TermService" /v Start /t REG_DWORD /d 2 /f
 
+
+:: 3. Внесение твиков для работы RDP без пароля
+echo Применение настроек сети и RDP...
+reg add "HKLM\VistaSys\ControlSet001\Control\Lsa" /v LimitBlankPasswordUse /t REG_DWORD /d 0 /f
+reg add "HKLM\VistaSys\ControlSet001\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
+reg add "HKLM\VistaSys\ControlSet001\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /t REG_DWORD /d 0 /f
+reg add "HKLM\VistaSys\ControlSet001\Control\Terminal Server\WinStations\RDP-Tcp" /v SecurityLayer /t REG_DWORD /d 0 /f
+
+
+
+
 :: ================================================
 :: Отключение UAC
 :: ================================================
