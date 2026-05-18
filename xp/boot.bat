@@ -1,1 +1,1 @@
- e:\support\tools\Bootice\BOOTICEx64.exe
+ d:\support\tools\Bootice\BOOTICEx64.exe
