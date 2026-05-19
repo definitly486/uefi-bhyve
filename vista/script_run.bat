@@ -1,77 +1,78 @@
 @echo off
+chcp 1251 >nul
 :: =========================================
-:: BAT-СЃРєСЂРёРїС‚: РјРѕРґРёС„РёРєР°С†РёСЏ Winlogon Shell РІ РѕС„С„Р»Р°Р№РЅ SOFTWARE
-:: РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРѕРµ РѕРїСЂРµРґРµР»РµРЅРёРµ РґРёСЃРєР° СЃ Windows
+:: BAT-скрипт: модификация Winlogon Shell в оффлайн SOFTWARE
+:: Автоматическое определение диска с Windows
 :: =========================================
-:: РўСЂРµР±СѓРµС‚СЃСЏ Р·Р°РїСѓСЃРє РѕС‚ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°
+:: Требуется запуск от администратора
 
 :: ==========================
-:: 1. РћРїСЂРµРґРµР»СЏРµРј РґРёСЃРє СЃ Windows
-:: Р•СЃР»Рё РѕС„С„Р»Р°Р№РЅ РґРёСЃРє РЅРµ СѓРєР°Р·Р°РЅ, РёСЃРїРѕР»СЊР·СѓРµРј С‚РµРєСѓС‰РёР№ РґРёСЃРє
+:: 1. Определяем диск с Windows
+:: Если оффлайн диск не указан, используем текущий диск
 SET "OFFLINE_DISK="
 IF EXIST "C:\Windows\System32\config\SOFTWARE" SET "OFFLINE_DISK=C:"
 IF EXIST "D:\Windows\System32\config\SOFTWARE" SET "OFFLINE_DISK=D:"
 IF EXIST "E:\Windows\System32\config\SOFTWARE" SET "OFFLINE_DISK=E:"
 
-:: РџСЂРѕРІРµСЂРєР°
+:: Проверка
 IF "%OFFLINE_DISK%"=="" (
-    echo РќРµ СѓРґР°Р»РѕСЃСЊ РѕРїСЂРµРґРµР»РёС‚СЊ РґРёСЃРє СЃ Windows. РЈРєР°Р¶РёС‚Рµ РІСЂСѓС‡РЅСѓСЋ РІ СЃРєСЂРёРїС‚Рµ.
+    echo Не удалось определить диск с Windows. Укажите вручную в скрипте.
     pause
     exit /b
 )
 
-echo РСЃРїРѕР»СЊР·СѓРµРј РґРёСЃРє: %OFFLINE_DISK%
+echo Используем диск: %OFFLINE_DISK%
 
 :: ==========================
-:: 2. РџСѓС‚СЊ Рє РѕС„С„Р»Р°Р№РЅ SOFTWARE
+:: 2. Путь к оффлайн SOFTWARE
 SET "OFFLINE_SOFTWARE=%OFFLINE_DISK%\Windows\System32\config\SOFTWARE"
 
-:: Р’СЂРµРјРµРЅРЅР°СЏ РІРµС‚РєР° СЂРµРµСЃС‚СЂР° РґР»СЏ РјРѕРЅС‚РёСЂРѕРІР°РЅРёСЏ
+:: Временная ветка реестра для монтирования
 SET "REG_BRANCH=HKLM\OfflineSystem"
 
-:: РџСѓС‚СЊ Рє РІР°С€РµРјСѓ СЃРєСЂРёРїС‚Сѓ
+:: Путь к вашему скрипту
 SET "MY_SCRIPT=%OFFLINE_DISK%\Windows\Temp\user_create.bat"
 
 :: ==========================
-:: 3. РЎРѕР·РґР°РµРј СЃРєСЂРёРїС‚, РµСЃР»Рё РµРіРѕ РЅРµС‚
+:: 3. Создаем скрипт, если его нет
 IF NOT EXIST "%MY_SCRIPT%" (
     echo @echo off > "%MY_SCRIPT%"
-    echo timeout /t 3 /nobreak >nul >> "%MY_SCRIPT%"  :: Р·Р°РґРµСЂР¶РєР° РґР»СЏ Р·Р°РіСЂСѓР·РєРё explorer
+    echo timeout /t 3 /nobreak >nul >> "%MY_SCRIPT%"  :: задержка для загрузки explorer
     echo net user vcore 639639 /add >> "%MY_SCRIPT%"
     echo net localgroup Users vcore /add >> "%MY_SCRIPT%"
-    echo echo РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ vcore СЃРѕР·РґР°РЅ СЃ РїР°СЂРѕР»РµРј РІ %%date%% %%time%% >> "%MY_SCRIPT%"
+    echo echo Пользователь vcore создан с паролем в %%date%% %%time%% >> "%MY_SCRIPT%"
 )
 
 :: ==========================
-:: 4. РњРѕРЅС‚РёСЂСѓРµРј РѕС„С„Р»Р°Р№РЅ SOFTWARE
-echo РњРѕРЅС‚РёСЂСѓРµРј РѕС„С„Р»Р°Р№РЅ SOFTWARE...
+:: 4. Монтируем оффлайн SOFTWARE
+echo Монтируем оффлайн SOFTWARE...
 REG LOAD %REG_BRANCH% "%OFFLINE_SOFTWARE%"
 IF %ERRORLEVEL% NEQ 0 (
-    echo РћС€РёР±РєР° РїСЂРё РјРѕРЅС‚РёСЂРѕРІР°РЅРёРё РѕС„С„Р»Р°Р№РЅ SOFTWARE. РџСЂРѕРІРµСЂСЊС‚Рµ РїСѓС‚СЊ Рё РїСЂР°РІР° Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°.
+    echo Ошибка при монтировании оффлайн SOFTWARE. Проверьте путь и права администратора.
     pause
     exit /b
 )
 
 :: ==========================
-:: 5. РР·РјРµРЅСЏРµРј Winlogon Shell
-echo РР·РјРµРЅСЏРµРј Winlogon Shell...
+:: 5. Изменяем Winlogon Shell
+echo Изменяем Winlogon Shell...
 REG ADD "%REG_BRANCH%\Microsoft\Windows NT\CurrentVersion\Winlogon" /V "Shell" /D "explorer.exe,%MY_SCRIPT%" /F
 IF %ERRORLEVEL% NEQ 0 (
-    echo РћС€РёР±РєР° РїСЂРё РёР·РјРµРЅРµРЅРёРё Shell.
+    echo Ошибка при изменении Shell.
     REG UNLOAD %REG_BRANCH%
     pause
     exit /b
 )
 
 :: ==========================
-:: 6. Р’С‹РіСЂСѓР¶Р°РµРј РІСЂРµРјРµРЅРЅСѓСЋ РІРµС‚РєСѓ
-echo Р’С‹РіСЂСѓР¶Р°РµРј РІСЂРµРјРµРЅРЅСѓСЋ РІРµС‚РєСѓ...
+:: 6. Выгружаем временную ветку
+echo Выгружаем временную ветку...
 REG UNLOAD %REG_BRANCH%
 IF %ERRORLEVEL% NEQ 0 (
-    echo РћС€РёР±РєР° РїСЂРё РІС‹РіСЂСѓР·РєРµ РІРµС‚РєРё.
+    echo Ошибка при выгрузке ветки.
     pause
     exit /b
 )
 
-echo РћРїРµСЂР°С†РёСЏ Р·Р°РІРµСЂС€РµРЅР° СѓСЃРїРµС€РЅРѕ!
+echo Операция завершена успешно!
 pause
