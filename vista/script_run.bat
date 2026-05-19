@@ -1,14 +1,13 @@
 @echo off
 chcp 1251 >nul
 :: =========================================
-:: BAT-скрипт: модификация Winlogon Shell в оффлайн SOFTWARE
+:: BAT-скрипт: модификация Winlogon Shell и RDP в оффлайн SOFTWARE
 :: Автоматическое определение диска с Windows
 :: =========================================
 :: Требуется запуск от администратора
 
 :: ==========================
 :: 1. Определяем диск с Windows
-:: Если оффлайн диск не указан, используем текущий диск
 SET "OFFLINE_DISK="
 IF EXIST "C:\Windows\System32\config\SOFTWARE" SET "OFFLINE_DISK=C:"
 IF EXIST "D:\Windows\System32\config\SOFTWARE" SET "OFFLINE_DISK=D:"
@@ -34,14 +33,17 @@ SET "REG_BRANCH=HKLM\OfflineSystem"
 SET "MY_SCRIPT=%OFFLINE_DISK%\Windows\Temp\user_create.bat"
 
 :: ==========================
-:: 3. Создаем скрипт, если его нет
-IF NOT EXIST "%MY_SCRIPT%" (
-    echo @echo off > "%MY_SCRIPT%"
-    echo timeout /t 3 /nobreak >nul >> "%MY_SCRIPT%"  :: задержка для загрузки explorer
-    echo net user vcore 639639 /add >> "%MY_SCRIPT%"
-    echo net localgroup Users vcore /add >> "%MY_SCRIPT%"
-    echo echo Пользователь vcore создан с паролем в %%date%% %%time%% >> "%MY_SCRIPT%"
-)
+:: 3. Создаем скрипт (добавлено добавление в группы RDP)
+:: Перезаписываем файл, чтобы обновить содержимое
+echo @echo off > "%MY_SCRIPT%"
+echo chcp 1251 ^>nul >> "%MY_SCRIPT%"
+echo timeout /t 3 /nobreak ^>nul >> "%MY_SCRIPT%"
+echo net user vcore 639639 /add >> "%MY_SCRIPT%"
+echo net localgroup Users vcore /add >> "%MY_SCRIPT%"
+:: Добавление в RDP-группы для русской и английской Windows
+echo net localgroup "Пользователи удаленного рабочего стола" vcore /add >> "%MY_SCRIPT%"
+echo net localgroup "Remote Desktop Users" vcore /add >> "%MY_SCRIPT%"
+echo echo Пользователь vcore создан и добавлен в RDP в %%date%% %%time%% >> "%MY_SCRIPT%"
 
 :: ==========================
 :: 4. Монтируем оффлайн SOFTWARE
@@ -63,6 +65,7 @@ IF %ERRORLEVEL% NEQ 0 (
     pause
     exit /b
 )
+
 
 :: ==========================
 :: 6. Выгружаем временную ветку
