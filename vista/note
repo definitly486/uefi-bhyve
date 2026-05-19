@@ -16,6 +16,7 @@ doas  mdconfig -d -u 0
 
 
 doas mdconfig -a -t vnode -f /home/definitly/downloads/windows_iso/WindowsVistaSurfacePro1.iso
+doas mkdir -p /mnt/udf
 doas mount -t udf /dev/md0 /mnt/udf
 mkdir -p ~/vista_iso_copy
 
