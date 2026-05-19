@@ -7,3 +7,10 @@ wine oscdimg.exe -m -o -u2 \
 
 arp-scan --localnet
 xfreerdp /u:Administrator  /p: /w:1918 /h:1045  /v:192.168.8.103   /drive:home,/home/definitly  /sound /tls-seclevel:0 /sec:nla
+
+
+doas mdconfig -a -t vnode -f vista.img
+doas ntfs-3g /dev/md0p2  /mnt/XP 
+doas umount /mnt/XP
+doas  mdconfig -d -u 0
+
