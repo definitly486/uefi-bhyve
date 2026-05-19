@@ -14,3 +14,10 @@ doas ntfs-3g /dev/md0p2  /mnt/XP
 doas umount /mnt/XP
 doas  mdconfig -d -u 0
 
+
+doas mdconfig -a -t vnode -f /home/definitly/downloads/windows_iso/WindowsVistaSurfacePro1.iso
+doas mount -t udf /dev/md0 /mnt/udf
+mkdir -p ~/vista_iso_copy
+
+cp -a /mnt/udf/. ~/vista_iso_copy
+
