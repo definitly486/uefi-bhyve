@@ -37,13 +37,9 @@ if %errorlevel% neq 0 (
 )
 
 
-:: Копируем autounattend.xml
-mkdir C:\setup
-copy D:\create_vcore.bat C:\setup\create_vcore.bat
+:: Копируем MAS_AIO.cmd
 
-:: Запускаем Sysprep с автозагрузкой
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce" /v CreateVCoreUser /t REG_SZ /d "C:\setup\create_vcore.bat" /f
-
+copy D:\MAS_AIO.cmd C:\
 
 :: -------------------------------
 :: Шаг 3: Настройка загрузчика
