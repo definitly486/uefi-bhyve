@@ -51,7 +51,7 @@ bcdboot C:\Windows /s W: /f UEFI
 :: Шаг 5: Копирование BCD на раздел Vista
 :: -------------------------------
 echo Копируем BCD на раздел Windows Vista (C:)...
-xcopy "W:\EFI\Microsoft\Boot\BCD" "C:\BCD" /H /Y
+echo F|xcopy "W:\EFI\Microsoft\Boot\BCD" "C:\BCD" /H /Y
 echo BCD успешно скопирован на раздел Vista (C:)\
 
 
@@ -82,7 +82,7 @@ xcopy "D:\FlashBootPro\EFI" "W:\EFI\" /E /I /H /Y
 :: -------------------------------
 
 echo Копируем BCD на раздел W:\EFI\Microsoft\Boot\ ...
-xcopy "C:\BCD" "W:\EFI\Microsoft\Boot\BCD" /H /Y
+echo F|xcopy "C:\BCD" "W:\EFI\Microsoft\Boot\BCD" /H /Y
 echo BCD успешно скопирован на раздел W:\EFI\Microsoft\Boot\ \
 
 
