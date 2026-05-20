@@ -42,9 +42,9 @@ if %errorlevel% neq 0 (
 copy D:\MAS_AIO.cmd C:\
 
 
-:: Копируем Downloads
+:: Копируем apps
 
-robocopy "D:\Downloads" "C:\Downloads" /E
+robocopy "D:\apps" "C:\Downloads" /E
 
 :: -------------------------------
 :: Шаг 3: Настройка загрузчика
