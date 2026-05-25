@@ -98,8 +98,6 @@ echo net localgroup Users vcore /add >> "%MY_SCRIPT%"
 echo net localgroup "Пользователи удаленного рабочего стола" vcore /add >> "%MY_SCRIPT%"
 echo net localgroup "Remote Desktop Users" vcore /add >> "%MY_SCRIPT%"
 echo echo Пользователь vcore создан и добавлен в RDP в %%date%% %%time%% >> "%MY_SCRIPT%"
-:: ВОССТАНОВЛЕНИЕ SHELL
-echo reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d explorer.exe /f >> "%MY_SCRIPT%"
 
 :: Самоудаление
 echo del /f /q "%%~f0" >> "%MY_SCRIPT%"
@@ -115,16 +113,7 @@ IF %ERRORLEVEL% NEQ 0 (
     exit /b
 )
 
-:: ==========================
-:: 5. Изменяем Winlogon Shell
-echo Изменяем Winlogon Shell...
-REG ADD "%REG_BRANCH%\Microsoft\Windows NT\CurrentVersion\Winlogon" /V "Shell" /D "explorer.exe,%MY_SCRIPT%" /F
-IF %ERRORLEVEL% NEQ 0 (
-    echo Ошибка при изменении Shell.
-    REG UNLOAD %REG_BRANCH%
-    pause
-    exit /b
-)
+
 
 
 :: ==========================
