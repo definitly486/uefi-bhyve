@@ -18,7 +18,9 @@ cp winpeshl.ini /tmp/bootwim/Windows/System32/
 
 wimlib-imagex update $HOME/win10_iso_copy/sources/boot.wim 2 --command="add /tmp/bootwim/Windows/System32/winpeshl.ini /Windows/System32/winpeshl.ini"
 
-oscdimg -m -o -u2 \
-  -b"Z:\home\definitly\win10_iso_copy\boot\etfsboot.com" \
-  "-bootdata:2#p0,e,bZ:\home\definitly\win10_iso_copy\boot\etfsboot.com#pEF,e,bZ:\home\definitly\win10_iso_copy\efi\microsoft\boot\efisys.bin" \
-  "Z:\home\definitly\win10_iso_copy" "Z:\ntfs-2TB\vm\ISO\win10_bootable.iso"
+mkisofs -V "Win10_Boot" -UDF -v \
+  -b boot/etfsboot.com -no-emul-boot -boot-load-size 8 \
+  -eltorito-alt-boot \
+  -eltorito-boot efi/microsoft/boot/efisys.bin -no-emul-boot \
+  -o /ntfs-2TB/vm/ISO/win10_bootable.iso \
+  /home/definitly/win10_iso_copy
