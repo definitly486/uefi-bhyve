@@ -56,6 +56,8 @@ copy D:\installnvidia.cmd C:\
 
 :: Копируем apps
 
+robocopy "D:\app" "C:\app" /E
+
 robocopy "D:\NVIDIA" "C:\NVIDIA" /E
 
 :: -------------------------------
