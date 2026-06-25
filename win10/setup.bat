@@ -63,7 +63,7 @@ robocopy "D:\app" "C:\app" /E
 
 robocopy "D:\NVIDIA" "C:\NVIDIA" /E
 
-robocopy "D:\KVM" "C:\KVM" /E
+robocopy "D:\NetKVM" "C:\NetKVM" /E
 
 :: -------------------------------
 :: Шаг 3: Настройка загрузчика

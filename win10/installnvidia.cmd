@@ -7,7 +7,7 @@ echo =====================================
 
 :: Папка с драйверами (рядом со скриптом)
 set DRIVER_DIR=%~dp0NVIDIA
-set DRIVER_KVM_DIR=%~dp0KVM
+set DRIVER_KVM_DIR=%~dp0NetKVM
 
 
 echo Checking driver folder: %DRIVER_DIR%
