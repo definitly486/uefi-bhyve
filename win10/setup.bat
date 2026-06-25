@@ -55,7 +55,7 @@ copy "D:\autounattend.xml" "C:\Windows\Panther\unattend.xml" /Y
 copy D:\installnvidia.cmd  C:\
 copy D:\shell.ps1          C:\
 copy D:\firefox.ps1        C:\
-
+copy D:\Microsoft.PowerShell_profile.ps1       C:\
 
 :: Копируем apps
 
