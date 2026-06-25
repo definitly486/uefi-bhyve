@@ -1,8 +1,14 @@
 #!/bin/sh
 
+mkdir -p $HOME/win10_iso_copy
+7z x /ntfs-2TB/vm/ISO/ru-ru_windows_10_enterprise_ltsc_2021_x64_dvd.iso -o/home/definitly/win10_iso_copy
+
+cp -R /ntfs-2TB/vm/NVIDIA $HOME/win10_iso_copy
+
 wimextract $HOME/win10_iso_copy/sources/boot.wim 2  --dest-dir=/tmp/bootwim 
 cp winpeshl.ini /tmp/bootwim/Windows/System32/
 cp setup.bat $HOME/win10_iso_copy
+cp installnvidia.cmd $HOME/win10_iso_copy
 wimlib-imagex update $HOME/win10_iso_copy/sources/boot.wim 2 --command="add /tmp/bootwim/Windows/System32/winpeshl.ini /Windows/System32/winpeshl.ini"
 
 oscdimg -m -o -u2 \

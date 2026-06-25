@@ -42,9 +42,13 @@ if %errorlevel% neq 0 (
 copy D:\MAS_AIO.cmd C:\
 
 
+:: Копируем installnvidia.cmd
+
+copy D:\installnvidia.cmd C:\
+
 :: Копируем apps
 
-robocopy "D:\apps" "C:\Downloads" /E
+robocopy "D:\NVIDIA" "C:\NVIDIA" /E
 
 :: -------------------------------
 :: Шаг 3: Настройка загрузчика
