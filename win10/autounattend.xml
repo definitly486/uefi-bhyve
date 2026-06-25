@@ -6,7 +6,7 @@
             <SetupUILanguage>
                 <UILanguage>ru-RU</UILanguage>
             </SetupUILanguage>
-            <InputLocale>ru-RU;en-US</InputLocale>
+            <InputLocale>0419:00000419;0409:00000409</InputLocale>
             <SystemLocale>ru-RU</SystemLocale>
             <UILanguage>ru-RU</UILanguage>
             <UILanguageFallback>en-US</UILanguageFallback>
@@ -15,6 +15,22 @@
     </settings>
 
   <settings pass="oobeSystem">
+
+<component name="Microsoft-Windows-International-Core"
+           processorArchitecture="amd64"
+           publicKeyToken="31bf3856ad364e35"
+           language="neutral"
+           versionScope="nonSxS">
+
+    <InputLocale>0419:00000419;0409:00000409</InputLocale>
+    <SystemLocale>ru-RU</SystemLocale>
+    <UILanguage>ru-RU</UILanguage>
+    <UILanguageFallback>en-US</UILanguageFallback>
+    <UserLocale>ru-RU</UserLocale>
+
+</component>
+
+
         <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wic="http://microsoft.com">
             <!-- Отключение всех приветственных окон и вопросов -->
             <OOBE>
