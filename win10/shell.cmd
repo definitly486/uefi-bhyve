@@ -1,5 +1,5 @@
 @echo off
-chcp 65001 > nul
+
 
 echo [1/4] Разрешаем выполнение скриптов в PowerShell...
 powershell -NoProfile -ExecutionPolicy Bypass -Command "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force"
