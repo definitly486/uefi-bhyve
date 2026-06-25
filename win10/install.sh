@@ -10,6 +10,7 @@ cp installnvidia.cmd      $HOME/win10_iso_copy
 cp setup.bat              $HOME/win10_iso_copy
 cp -R /ntfs-2TB/vm/app    $HOME/win10_iso_copy
 cp shell.cmd              $HOME/win10_iso_copy
+cp firefox.ps1            $HOME/win10_iso_copy
 wimextract $HOME/win10_iso_copy/sources/boot.wim 2  --dest-dir=/tmp/bootwim 
 cp winpeshl.ini /tmp/bootwim/Windows/System32/
 
