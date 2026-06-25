@@ -39,6 +39,7 @@ echo Trying to install drivers on available hardware...
 echo.
 
 pnputil /add-driver "%DRIVER_DIR%\nv_dispi.inf" /subdirs /install
+pnputil /add-driver "%DRIVER_KVM_DIR%\netkvm.inf" /subdirs /install
 
 if %errorlevel% neq 0 (
     echo WARNING: Some drivers were not installed (possibly no GPU detected yet).
@@ -46,7 +47,7 @@ if %errorlevel% neq 0 (
     echo NVIDIA drivers installed successfully.
 )
 
-pnputil /add-driver "%DRIVER_KVM_DIR%\netkvm.inf" /subdirs /install
+
 
 
 echo.
