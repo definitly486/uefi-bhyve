@@ -1,5 +1,8 @@
 #!/bin/sh
 
+ISO=
+
+
 for prog in 7z wimextract wimlib-imagex mkisofs cp mkdir ; do
     if ! command -v "$prog" >/dev/null 2>&1; then
         echo "Ошибка: программа '$prog' не найдена."
@@ -9,7 +12,7 @@ done
 
 
 mkdir -p $HOME/win10_iso_copy
-7z x /ntfs-2TB/vm/ISO/ru-ru_windows_10_enterprise_ltsc_2021_x64_dvd.iso -o/home/definitly/win10_iso_copy
+7z x /ntfs-2TB/vm/ISO/$ISO -o/home/definitly/win10_iso_copy
 
 cp -R /ntfs-2TB/vm/NVIDIA    $HOME/win10_iso_copy
 cp -R /ntfs-2TB/vm/NetKVM    $HOME/win10_iso_copy
