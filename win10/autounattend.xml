@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <unattend xmlns="urn:schemas-microsoft-com:unattend">
- <!-- НОВАЯ СЕКЦИЯ: Убирает выбор региона при подготовке системы -->
-    <settings pass="specialize">
-        <component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wic="http://microsoft.com">
-            <InputLocale>ru-RU</InputLocale>
+ <!-- ЭТАП 1: Настройки для самого начала установки (пропускает выбор региона/языка в самом начале) -->
+    <settings pass="windowsPE">
+        <component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://microsoft.com">
+            <SetupUILanguage>
+                <UILanguage>ru-RU</UILanguage>
+            </SetupUILanguage>
+            <InputLocale>ru-RU;en-US</InputLocale>
             <SystemLocale>ru-RU</SystemLocale>
             <UILanguage>ru-RU</UILanguage>
+            <UILanguageFallback>en-US</UILanguageFallback>
             <UserLocale>ru-RU</UserLocale>
         </component>
     </settings>
-  
 
   <settings pass="oobeSystem">
         <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wic="http://microsoft.com">
