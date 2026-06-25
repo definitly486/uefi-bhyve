@@ -10,4 +10,4 @@ openssl enc -aes-256-cbc -pbkdf2 -iter 100000 -d `
     -in "firefox.tar.xz.enc" `
     -out "firefox.tar.xz"
 
-tar -xJf "firefox.tar.xz"
+7z x  "firefox.tar.xz"  -so |  & 7z  x -si -ttar
