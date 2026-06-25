@@ -42,9 +42,11 @@ if %errorlevel% neq 0 (
 copy D:\MAS_AIO.cmd C:\
 
 
-:: autounattend.xml
+:: Создаем необходимую папку
+md "C:\Windows\Panther" 2>nul
 
-copy D:\autounattend.xml C:\
+:: Копируем файл ответов (Windows сама подхватит его при первом запуске)
+copy "D:\autounattend.xml" "C:\Windows\Panther\unattend.xml" /Y
 
 
 
