@@ -42,6 +42,12 @@ if %errorlevel% neq 0 (
 copy D:\MAS_AIO.cmd C:\
 
 
+:: autounattend.xml
+
+copy D:\autounattend.xml C:\
+
+
+
 :: Копируем installnvidia.cmd
 
 copy D:\installnvidia.cmd C:\

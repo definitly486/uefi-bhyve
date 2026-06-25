@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<unattend xmlns="urn:schemas-microsoft-com:unattend">
+    <settings pass="oobeSystem">
+        <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wic="http://microsoft.com">
+            <!-- Отключение всех приветственных окон и вопросов -->
+            <OOBE>
+                <HideEULAPage>true</HideEULAPage>
+                <HideLocalAccountScreen>true</HideLocalAccountScreen>
+                <HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
+                <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
+                <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
+                <ProtectYourPC>3</ProtectYourPC>
+            </OOBE>
+            <!-- Автоматическое создание локального пользователя -->
+            <UserAccounts>
+                <LocalAccounts>
+                    <LocalAccount wic:userAccount="true">
+                        <Password>
+                            <Value>639639</Value>
+                            <PlainText>true</PlainText>
+                        </Password>
+                        <Description>Локальный администратор vcore</Description>
+                        <DisplayName>vcore</DisplayName>
+                        <Group>Administrators</Group>
+                        <Name>vcore</Name>
+                    </LocalAccount>
+                </LocalAccounts>
+            </UserAccounts>
+            <!-- Автоматический вход в созданного юзера при первом запуске -->
+            <AutoLogon>
+                <Password>
+                    <Value>639639</Value>
+                    <PlainText>true</PlainText>
+                </Password>
+                <Enabled>true</Enabled>
+                <LogonCount>1</LogonCount>
+                <Username>vcore</Username>
+            </AutoLogon>
+            <TimeZone>Russian Standard Time</TimeZone>
+        </component>
+    </settings>
+</unattend>
