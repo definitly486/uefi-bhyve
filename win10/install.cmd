@@ -50,6 +50,11 @@ pnputil /add-driver "%DRIVER_KVM_DIR%\netkvm.inf" /subdirs /install
 
 
 robocopy "C:\app\profile" "C:\app\Firefox Setup 152.0.2\core\profile" /E /R:1 /W:1
+mkdir "C:\Users\vcore\Documents\WindowsPowerShell"
+copy "C:\Microsoft.PowerShell_profile.ps1" "C:\Users\vcore\Documents\WindowsPowerShell\"
+
+
+
 
 if %errorlevel% neq 0 (
     echo WARNING: Some drivers were not installed (possibly no GPU detected yet).
