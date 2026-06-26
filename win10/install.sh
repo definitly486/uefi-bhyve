@@ -47,3 +47,15 @@ mkisofs -V "Win10_Boot" -UDF -v \
   -eltorito-boot efi/microsoft/boot/efisys.bin -no-emul-boot \
   -o /ntfs-2TB/vm/ISO/win10_bootable.iso \
   /home/definitly/win10_iso_copy
+
+doas rm /ntfs-2TB/vm/win10/win10.img
+truncate -s 55G /ntfs-2TB/vm/win10/win10.img
+
+doas bhyve -A -H -P -S -s 0:0,hostbridge \
+           -s 1:0,lpc \
+           -s 10:0,virtio-net,tap0 \
+           -s 5,fbuf,tcp=0.0.0.0:5900,"w=1918,h=1058" \
+           -s 3:0,ahci-hd,/ntfs-2TB/vm/win10/win10.img  \
+           -s 4,ahci-cd,/ntfs-2TB/vm/ISO/win10_bootable.iso,bootindex=1 \
+           -l bootrom,/bhyve/win10/BHYVE_BHF_UEFI.fd \
+           -c cpus=4,sockets=1,cores=4,threads=1  -m 4G win
