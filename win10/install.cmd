@@ -45,7 +45,7 @@ echo.
 echo Trying to install drivers on available hardware...
 echo.
 
-powershell -NoProfile -ExecutionPolicy Bypass -Command "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force"
+
 
 pnputil /add-driver "%DRIVER_DIR%\nv_dispi.inf" /subdirs /install
 pnputil /add-driver "%DRIVER_KVM_DIR%\netkvm.inf" /subdirs /install
@@ -54,6 +54,8 @@ pnputil /add-driver "%DRIVER_KVM_DIR%\netkvm.inf" /subdirs /install
 robocopy "C:\app\profile" "C:\app\Firefox Setup 152.0.2\core\profile" /E /R:1 /W:1
 mkdir "C:\Users\vcore\Documents\WindowsPowerShell"
 copy "C:\Microsoft.PowerShell_profile.ps1" "C:\Users\vcore\Documents\WindowsPowerShell\"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force"
+powershell -NoProfile -ExecutionPolicy Bypass -Command ". $PROFILE"
 
 
 
