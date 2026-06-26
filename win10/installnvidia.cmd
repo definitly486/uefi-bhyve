@@ -1,6 +1,14 @@
 @echo off
 setlocal enabledelayedexpansion
 
+:: Проверка и автоматический запрос прав Администратора
+net session >nul 2>&1
+if %errorlevel% neq 0 (
+    echo Requesting administrator privileges...
+    powershell -Command "Start-Process '%~f0' -Verb RunAs"
+    exit /b
+)
+
 echo =====================================
 echo NVIDIA driver install script
 echo =====================================
@@ -8,7 +16,6 @@ echo =====================================
 :: Папка с драйверами (рядом со скриптом)
 set DRIVER_DIR=%~dp0NVIDIA
 set DRIVER_KVM_DIR=%~dp0NetKVM
-
 
 echo Checking driver folder: %DRIVER_DIR%
 
@@ -47,15 +54,28 @@ if %errorlevel% neq 0 (
     echo NVIDIA drivers installed successfully.
 )
 
+echo.
+echo =====================================
+echo Enabling Remote Desktop (RDP)...
+echo =====================================
 
+:: 1. Включение RDP в реестре
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f >nul
 
+:: 2. Разрешение RDP в Брандмауэре Windows (для всех языковых версий ОС)
+netsh advfirewall firewall set rule group="remote desktop" new enable=Yes >nul 2>&1
+netsh advfirewall firewall set rule group="удаленный рабочий стол" new enable=Yes >nul 2>&1
+
+:: 3. Настройка автозапуска и старт службы Терминалов
+sc config TermService start= auto >nul
+sc start TermService >nul
+
+echo Remote Desktop has been enabled.
 
 echo.
 echo Done.
 echo If GPU is not installed yet, drivers will activate automatically after detection.
 echo.
-
-
 
 pause
 endlocal
