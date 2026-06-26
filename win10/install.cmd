@@ -45,6 +45,8 @@ echo.
 echo Trying to install drivers on available hardware...
 echo.
 
+powershell -NoProfile -ExecutionPolicy Bypass -Command "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force"
+
 pnputil /add-driver "%DRIVER_DIR%\nv_dispi.inf" /subdirs /install
 pnputil /add-driver "%DRIVER_KVM_DIR%\netkvm.inf" /subdirs /install
 
