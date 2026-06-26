@@ -48,6 +48,9 @@ echo.
 pnputil /add-driver "%DRIVER_DIR%\nv_dispi.inf" /subdirs /install
 pnputil /add-driver "%DRIVER_KVM_DIR%\netkvm.inf" /subdirs /install
 
+
+robocopy "C:\app\profile" "C:\app\Firefox Setup 152.0.2\core\profile" /E /R:1 /W:1
+
 if %errorlevel% neq 0 (
     echo WARNING: Some drivers were not installed (possibly no GPU detected yet).
 ) else (
@@ -71,6 +74,8 @@ sc config TermService start= auto >nul
 sc start TermService >nul
 
 echo Remote Desktop has been enabled.
+
+
 
 echo.
 echo Done.
