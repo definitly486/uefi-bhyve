@@ -1,13 +1,13 @@
 #!/bin/sh
 
-ISO="ru_windows_10_enterprise_ltsc_2019_x64_dvd_78e7853a.iso2"
+ISO="ru_windows_10_enterprise_ltsc_2019_x64_dvd_9aef5d46.iso"
 SRC="/ntfs-2TB/vm/ISO/$ISO"
 DEST="$HOME/win10_iso_copy"
 
 mkdir -p "$DEST"
 
 
-for prog in 7z wimextract wimlib-imagex mkisofs cp mkdir rsync ; do
+for prog in 7z wimextract wimlib-imagex mkisofs cp mkdir ; do
     if ! command -v "$prog" >/dev/null 2>&1; then
         echo "Ошибка: программа '$prog' не найдена."
         exit 1
@@ -25,13 +25,13 @@ fi
 
 
 
-rsync -ah --progress /ntfs-2TB/vm/NVIDIA    $HOME/win10_iso_copy
-rsync -ah --progress /ntfs-2TB/vm/NetKVM    $HOME/win10_iso_copy
+nice -n 15 idprio 29 cp -R /ntfs-2TB/vm/NVIDIA    $HOME/win10_iso_copy
+nice -n 15 idprio 29 cp -R /ntfs-2TB/vm/NetKVM    $HOME/win10_iso_copy
 cp ../vista/MAS_AIO.cmd      $HOME/win10_iso_copy
 cp autounattend.xml          $HOME/win10_iso_copy
 cp installnvidia.cmd         $HOME/win10_iso_copy
 cp setup.bat                 $HOME/win10_iso_copy
-rsync -ah --progress /ntfs-2TB/vm/app       $HOME/win10_iso_copy
+nice -n 15 idprio 29 cp -R /ntfs-2TB/vm/app       $HOME/win10_iso_copy
 cp shell.cmd                 $HOME/win10_iso_copy
 cp firefox.ps1               $HOME/win10_iso_copy
 cp Microsoft.PowerShell_profile.ps1               $HOME/win10_iso_copy
