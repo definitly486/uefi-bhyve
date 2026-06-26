@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ISO="ru_windows_10_enterprise_ltsc_2019_x64_dvd_9aef5d46.iso"
+ISO="tiny10x6423h2.iso"
 SRC="/ntfs-2TB/vm/ISO/$ISO"
 DEST="$HOME/win10_iso_copy"
 

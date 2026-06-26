@@ -29,11 +29,23 @@ echo exit
 :: Шаг 2: Разворачиваем образ Windows
 :: -------------------------------
 cd /d D:\sources
-echo Разворачивание образа Windows на C:\
-dism /apply-image /imagefile:D:\sources\install.wim /index:1 /applydir:C:\
+
+if exist install.wim (
+    set IMAGE=install.wim
+) else if exist install.esd (
+    set IMAGE=install.esd
+) else (
+    echo Не найден ни install.wim, ни install.esd!
+    pause
+    exit /b 1
+)
+
+echo Разворачивание образа %IMAGE% на C:\
+dism /apply-image /imagefile:D:\sources\%IMAGE% /index:1 /applydir:C:\
+
 if %errorlevel% neq 0 (
-    echo DISM не сработал, пробуем gimagex...
-    D:\support\tools\gimagex\x64\gimagex.exe /apply D:\sources\install.wim 1 C:\
+    echo DISM не сработал, пробуем GImageX...
+    D:\support\tools\gimagex\x64\gimagex.exe /apply D:\sources\%IMAGE% 1 C:\
 )
 
 
