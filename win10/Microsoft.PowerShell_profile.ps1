@@ -14,3 +14,8 @@ function openssl {
 function 7z {
 & 'C:\app\7z2600-x64\7z.exe' @args
 }
+
+
+function mpv {
+& 'C:\app\mpv-x86_64-20260626-git-c75b8d2cca\mpv.exe' @args
+}
