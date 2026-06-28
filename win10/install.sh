@@ -67,6 +67,9 @@ EMPTY_ISO="/ntfs-2TB/vm/win10/empty.iso"
 
 touch "$EMPTY_ISO"
 
+while true
+do
+
 if [ ! -f "$MARKER" ]; then
     echo "[!] Первый запуск. Подключаем установочный ISO..."
     ln -sfn "$ORIGINAL_ISO" "$VM_ISO"
@@ -75,9 +78,6 @@ else
     ln -sfn "$EMPTY_ISO" "$VM_ISO"
 fi
 
-
-while true
-do
 # 2. Основной запуск bhyve
 doas bhyve -A -H -P -S \
   -s 0:0,hostbridge \
