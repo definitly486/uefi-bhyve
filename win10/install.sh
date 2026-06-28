@@ -1,15 +1,16 @@
 #!/bin/sh
 
-doas bhyvectl --destroy --vm="$VM_NAME"
-
 ISO="ru_windows_10_enterprise_ltsc_2019_x64_dvd_9aef5d46.iso"
 SRC="/ntfs-2TB/vm/ISO/$ISO"
 DEST="$HOME/win10_iso_copy"
 ORIGINAL_ISO="/ntfs-2TB/vm/ISO/win10_bootable.iso"
 VM_ISO="/ntfs-2TB/vm/win10/current_boot.iso"
 MARKER="/ntfs-2TB/vm/win10/installed.flag"
-VM_NAME="win10_ent"
+VM_NAME="win10"
 
+
+doas bhyvectl --destroy --vm="$VM_NAME"
+rm $MARKER
 mkdir -p "$DEST"
 
 
@@ -75,7 +76,8 @@ else
 fi
 
 
-
+while true
+do
 # 2. Основной запуск bhyve
 doas bhyve -A -H -P -S \
   -s 0:0,hostbridge \
@@ -88,12 +90,20 @@ doas bhyve -A -H -P -S \
   -c cpus=4,sockets=1,cores=4,threads=1 \
   -m 4G "$VM_NAME"
 
+
 # bhyve приостанавливает выполнение скрипта, пока ВМ работает.
 # Код ниже выполнится ТОЛЬКО после выключения или перезагрузки Windows.
 
 # 3. Очистка ресурсов в памяти FreeBSD (Обязательно для bhyve)
 echo "[*] Очистка ресурсов bhyve для машины $VM_NAME..."
+RES=$?
 doas bhyvectl --destroy --vm="$VM_NAME"
+    if [ $RES -eq 1 ]
+    then
+        exit 1
+    fi
+    echo sleeping for 5 sec...
+    sleep 5
 
 # 4. Фиксация успешного первого запуска
 if [ ! -f "$MARKER" ]; then
@@ -101,3 +111,4 @@ if [ ! -f "$MARKER" ]; then
     touch "$MARKER"
     echo "[*] Теперь Windows будет загружаться только с жесткого диска."
 fi
+done
