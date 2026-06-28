@@ -1,8 +1,14 @@
 #!/bin/sh
 
-ISO="tiny10x6423h2.iso"
+doas bhyvectl --destroy --vm="$VM_NAME"
+
+ISO="ru_windows_10_enterprise_ltsc_2019_x64_dvd_9aef5d46.iso"
 SRC="/ntfs-2TB/vm/ISO/$ISO"
 DEST="$HOME/win10_iso_copy"
+ORIGINAL_ISO="/ntfs-2TB/vm/ISO/win10_bootable.iso"
+VM_ISO="/ntfs-2TB/vm/win10/current_boot.iso"
+MARKER="/ntfs-2TB/vm/win10/installed.flag"
+VM_NAME="win10_ent"
 
 mkdir -p "$DEST"
 
@@ -22,40 +28,76 @@ else
     exit 1
 fi
 
+# Копирование драйверов и скриптов автоматизации
+echo "[*] Копирование дополнительных файлов..."
+nice -n 15 cp -R /ntfs-2TB/vm/NVIDIA    "$DEST/"
+nice -n 15 cp -R /ntfs-2TB/vm/NetKVM    "$DEST/"
+nice -n 15 cp -R /ntfs-2TB/vm/app       "$DEST/"
+cp ../vista/MAS_AIO.cmd                 "$DEST/"
+cp autounattend.xml                     "$DEST/"
+cp install.cmd                          "$DEST/"
+cp setup.bat                            "$DEST/"
+cp shell.cmd                            "$DEST/"
+cp firefox.ps1                          "$DEST/"
+cp Microsoft.PowerShell_profile.ps1     "$DEST/"
 
 
+#отключение запроса "нажмите чтобы загрузиться с cd"
+rm $DEST/efi/microsoft/boot/efisys.bin
+cp  efisys.bin  $DEST/efi/microsoft/boot/efisys.bin
 
-nice -n 15  cp -R /ntfs-2TB/vm/NVIDIA    $HOME/win10_iso_copy
-nice -n 15  cp -R /ntfs-2TB/vm/NetKVM    $HOME/win10_iso_copy
-cp ../vista/MAS_AIO.cmd      $HOME/win10_iso_copy
-cp autounattend.xml          $HOME/win10_iso_copy
-cp install.cmd         $HOME/win10_iso_copy
-cp setup.bat                 $HOME/win10_iso_copy
-nice -n 15  cp -R /ntfs-2TB/vm/app       $HOME/win10_iso_copy
-cp shell.cmd                 $HOME/win10_iso_copy
-cp firefox.ps1               $HOME/win10_iso_copy
-cp Microsoft.PowerShell_profile.ps1               $HOME/win10_iso_copy
-wimextract $HOME/win10_iso_copy/sources/boot.wim 2  --dest-dir=/tmp/bootwim 
-cp winpeshl.ini /tmp/bootwim/Windows/System32/
+# Модификация Windows PE (boot.wim) напрямую через wimlib-imagex
+echo "[*] Интеграция winpeshl.ini в boot.wim..."
+wimlib-imagex update "$DEST/sources/boot.wim" 2 --command="add winpeshl.ini /Windows/System32/winpeshl.ini"
 
-
-wimlib-imagex update $HOME/win10_iso_copy/sources/boot.wim 2 --command="add /tmp/bootwim/Windows/System32/winpeshl.ini /Windows/System32/winpeshl.ini"
-
+# Создание кастомного загрузочного ISO
+echo "[*] Создание загрузочного ISO образа..."
 mkisofs -V "Win10_Boot" -UDF -v \
   -b boot/etfsboot.com -no-emul-boot -boot-load-size 8 \
   -eltorito-alt-boot \
   -eltorito-boot efi/microsoft/boot/efisys.bin -no-emul-boot \
-  -o /ntfs-2TB/vm/ISO/win10_bootable.iso \
-  /home/definitly/win10_iso_copy
+  -o "$ORIGINAL_ISO" \
+  "$DEST"
 
 doas rm /ntfs-2TB/vm/win10/win10.img
 truncate -s 55G /ntfs-2TB/vm/win10/win10.img
 
-doas bhyve -A -H -P -S -s 0:0,hostbridge \
-           -s 1:0,lpc \
-           -s 10:0,virtio-net,tap0 \
-           -s 5,fbuf,tcp=0.0.0.0:5900,"w=1918,h=1058" \
-           -s 3:0,ahci-hd,/ntfs-2TB/vm/win10/win10.img  \
-           -s 4,ahci-cd,/ntfs-2TB/vm/ISO/win10_bootable.iso,bootindex=1 \
-           -l bootrom,/bhyve/win10/BHYVE_BHF_UEFI.fd \
-           -c cpus=4,sockets=1,cores=4,threads=1  -m 4G win
+EMPTY_ISO="/ntfs-2TB/vm/win10/empty.iso"
+
+touch "$EMPTY_ISO"
+
+if [ ! -f "$MARKER" ]; then
+    echo "[!] Первый запуск. Подключаем установочный ISO..."
+    ln -sfn "$ORIGINAL_ISO" "$VM_ISO"
+else
+    echo "[+] Windows установлена. Подключаем пустой ISO..."
+    ln -sfn "$EMPTY_ISO" "$VM_ISO"
+fi
+
+
+
+# 2. Основной запуск bhyve
+doas bhyve -A -H -P -S \
+  -s 0:0,hostbridge \
+  -s 1:0,lpc \
+  -s 10:0,virtio-net,tap0 \
+  -s 5,fbuf,tcp=0.0.0.0:5900,w=1918,h=1058 \
+  -s 3:0,ahci-hd,/ntfs-2TB/vm/win10/win10.img \
+  -s 3:1,ahci-cd,"$VM_ISO" \
+  -l bootrom,/bhyve/win10/BHYVE_BHF_UEFI.fd \
+  -c cpus=4,sockets=1,cores=4,threads=1 \
+  -m 4G "$VM_NAME"
+
+# bhyve приостанавливает выполнение скрипта, пока ВМ работает.
+# Код ниже выполнится ТОЛЬКО после выключения или перезагрузки Windows.
+
+# 3. Очистка ресурсов в памяти FreeBSD (Обязательно для bhyve)
+echo "[*] Очистка ресурсов bhyve для машины $VM_NAME..."
+doas bhyvectl --destroy --vm="$VM_NAME"
+
+# 4. Фиксация успешного первого запуска
+if [ ! -f "$MARKER" ]; then
+    echo "[+] Первая стадия установки завершена. Создаем маркер..."
+    touch "$MARKER"
+    echo "[*] Теперь Windows будет загружаться только с жесткого диска."
+fi
