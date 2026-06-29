@@ -67,7 +67,7 @@ net use Z: \\192.168.8.101\Share
 
 ::создание ссылок
 
-mklink "%userprofile%\Desktop\portable.cmd" "C:\app\Firefox Setup 152.0.2\core\portable.cmd"
+mklink "%userprofile%\Desktop\portable.bat" "C:\app\Firefox Setup 152.0.2\core\portable.bat"
 mklink "%userprofile%\Desktop\start_vpn.cmd" "C:\app\AmneziaVPN_4.8.19.0_x64\start_vpn.cmd"
 mklink "%userprofile%\Desktop\AmneziaVPN.exe" "C:\app\AmneziaVPN_4.8.19.0_x64\AmneziaVPN.exe"
 
