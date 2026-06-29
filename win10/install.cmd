@@ -58,6 +58,9 @@ copy "C:\Microsoft.PowerShell_profile.ps1" "C:\Users\vcore\Documents\WindowsPowe
 powershell -NoProfile -ExecutionPolicy Bypass -Command "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force"
 powershell -NoProfile -ExecutionPolicy Bypass -Command ". $PROFILE"
 
+netsh advfirewall firewall set rule group="Network Discovery" new enable=Yes
+netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=Yes
+
 reg add "HKLM\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters" /v AllowInsecureGuestAuth /t REG_DWORD /d 1 /f
 net use Z: \\192.168.8.101\Share
 
