@@ -2,7 +2,7 @@
 
 ISO="ru_windows_10_enterprise_ltsc_2019_x64_dvd_9aef5d46.iso"
 SRC="/ntfs-2TB/vm/ISO/$ISO"
-DEST="$HOME/win10_iso_copy"
+DEST="/ntfs-2TB/vm/ISO/win10_iso_copy"
 ORIGINAL_ISO="/ntfs-2TB/vm/ISO/win10_bootable.iso"
 VM_ISO="/ntfs-2TB/vm/win10/current_boot.iso"
 MARKER="/ntfs-2TB/vm/win10/installed.flag"
