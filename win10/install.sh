@@ -41,6 +41,7 @@ cp setup.bat                            "$DEST/"
 cp shell.cmd                            "$DEST/"
 cp firefox.ps1                          "$DEST/"
 cp Microsoft.PowerShell_profile.ps1     "$DEST/"
+cp SwitchToFreeBSD.sh                   "$DEST/"
 
 
 #отключение запроса "нажмите чтобы загрузиться с cd"
