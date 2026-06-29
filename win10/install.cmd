@@ -52,7 +52,7 @@ pnputil /add-driver "%DRIVER_KVM_DIR%\netkvm.inf" /subdirs /install
 
 rd /s /q %DRIVER_DIR%
 rd /s /q %DRIVER_KVM_DIR%
-robocopy "C:\app\profile" "C:\app\Firefox Setup 152.0.2\core\profile" /E /R:1 /W:1
+robocopy "C:\app\profile.tar.xz" "C:\app\Firefox Setup 152.0.2\core\profile" /E /R:1 /W:1
 mkdir "C:\Users\vcore\Documents\WindowsPowerShell"
 copy "C:\Microsoft.PowerShell_profile.ps1" "C:\Users\vcore\Documents\WindowsPowerShell\"
 powershell -NoProfile -ExecutionPolicy Bypass -Command "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force"
