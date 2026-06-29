@@ -69,6 +69,7 @@ copy D:\shell.cmd          C:\
 copy D:\firefox.ps1        C:\
 copy D:\Microsoft.PowerShell_profile.ps1       C:\
 copy D:\SwitchToFreeBSD.sh       C:\
+copy D:\monitor.sh       C:\
 
 :: Копируем apps
 

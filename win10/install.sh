@@ -42,7 +42,7 @@ cp shell.cmd                            "$DEST/"
 cp firefox.ps1                          "$DEST/"
 cp Microsoft.PowerShell_profile.ps1     "$DEST/"
 cp SwitchToFreeBSD.sh                   "$DEST/"
-
+cp monitor.sh                           "$DEST/"
 
 #отключение запроса "нажмите чтобы загрузиться с cd"
 rm $DEST/efi/microsoft/boot/efisys.bin
