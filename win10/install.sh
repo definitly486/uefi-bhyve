@@ -7,7 +7,8 @@ ORIGINAL_ISO="/ntfs-2TB/vm/ISO/win10_bootable.iso"
 VM_ISO="/ntfs-2TB/vm/win10/current_boot.iso"
 MARKER="/ntfs-2TB/vm/win10/installed.flag"
 VM_NAME="win10"
-
+WIM_PATH="$DEST/sources/boot.wim"
+CMD_STR="add winpeshl.ini /Windows/System32/winpeshl.ini"
 
 doas bhyvectl --destroy --vm="$VM_NAME"
 rm $MARKER
@@ -50,7 +51,18 @@ cp  efisys.bin  $DEST/efi/microsoft/boot/efisys.bin
 
 # Модификация Windows PE (boot.wim) напрямую через wimlib-imagex
 echo "[*] Интеграция winpeshl.ini в boot.wim..."
-wimlib-imagex update "$DEST/sources/boot.wim" 2 --command="add winpeshl.ini /Windows/System32/winpeshl.ini"
+# Получаем общее количество индексов (изображений) внутри WIM
+TOTAL_IMAGES=$(wimlib-imagex info "$WIM_PATH" | grep "Image Count:" | awk '{print $3}')
+
+# Если общее число индексов меньше 2, принудительно используем индекс 1
+if [ "$TOTAL_IMAGES" -lt 2 ]; then
+    TARGET_INDEX=1
+else
+    TARGET_INDEX=2
+fi
+
+# Выполняем обновление выбранного индекса
+wimlib-imagex update "$WIM_PATH" "$TARGET_INDEX" --command="$CMD_STR"
 
 # Создание кастомного загрузочного ISO
 echo "[*] Создание загрузочного ISO образа..."
