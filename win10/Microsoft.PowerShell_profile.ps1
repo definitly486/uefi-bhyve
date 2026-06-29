@@ -21,3 +21,7 @@ function mpv {
 function yt-dlp {
 & 'C:\app\yt-dlp\yt-dlp.exe' @args
 }
+
+function streamlink {
+& 'C:\app\streamlink-8.4.0-1-py314-x86_64\bin\streamlink.exe' @args
+}
