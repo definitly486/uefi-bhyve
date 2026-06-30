@@ -71,7 +71,7 @@ mklink "%userprofile%\Desktop\portable.bat" "C:\app\Firefox Setup 152.0.2\core\p
 mklink "%userprofile%\Desktop\start_vpn.cmd" "C:\app\AmneziaVPN_4.8.19.0_x64\start_vpn.cmd"
 mklink "%userprofile%\Desktop\AmneziaVPN.exe" "C:\app\AmneziaVPN_4.8.19.0_x64\AmneziaVPN.exe"
 mklink "%userprofile%\Desktop\FreeTube.exe" "C:\app\freetube-0.24.1-beta-win-x64-portable\FreeTube.exe"
-
+mklink "%userprofile%\Desktop\GTweak.exe" "C:\app\GTweak.exe"
 
 if %errorlevel% neq 0 (
     echo WARNING: Some drivers were not installed (possibly no GPU detected yet).
