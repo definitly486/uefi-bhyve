@@ -25,28 +25,52 @@ echo assign letter=C
 echo exit
 ) | diskpart
 
-:: -------------------------------
-:: Шаг 2: Разворачиваем образ Windows
-:: -------------------------------
-cd /d D:\sources
+:: ------------------------------- 
+:: Шаг 2: Разворачиваем образ Windows 
+:: ------------------------------- 
+@echo off
+setlocal enabledelayedexpansion
 
-if exist install.wim (
-    set IMAGE=install.wim
-) else if exist install.esd (
-    set IMAGE=install.esd
-) else (
-    echo Не найден ни install.wim, ни install.esd!
-    pause
-    exit /b 1
+:: Список всех возможных букв дисков
+set "DRIVES=A B C D E F G H I J K L M N O P Q R S T U V W X Y Z"
+set "SOURCE_DRIVE="
+set "IMAGE="
+
+:: Перебираем диски в поисках папки sources и файлов образов
+for %%D in (%DRIVES%) do (
+    if exist "%%D:\sources" (
+        if exist "%%D:\sources\install.wim" (
+            set "SOURCE_DRIVE=%%D:"
+            set "IMAGE=install.wim"
+            goto :FOUND
+        ) else if exist "%%D:\sources\install.esd" (
+            set "SOURCE_DRIVE=%%D:"
+            set "IMAGE=install.esd"
+            goto :FOUND
+        )
+    )
 )
 
-echo Разворачивание образа %IMAGE% на C:\
-dism /apply-image /imagefile:D:\sources\%IMAGE% /index:1 /applydir:C:\
+:NOT_FOUND
+echo Не найден образ (install.wim/install.esd) в папке \sources ни на одном диске^^!
+pause
+exit /b 1
 
-if %errorlevel% neq 0 (
+:FOUND
+:: Переходим в целевую папку, как в вашей исходной логике
+cd /d "!SOURCE_DRIVE!\sources"
+
+echo Найден образ !IMAGE! на диске !SOURCE_DRIVE!
+echo Разворачивание образа !IMAGE! на C:\
+dism /apply-image /imagefile="!SOURCE_DRIVE!\sources\!IMAGE!" /index:1 /applydir:C:\
+
+:: Проверка кода ошибки DISM через отложенное расширение
+if !errorlevel! neq 0 (
     echo DISM не сработал, пробуем GImageX...
-    D:\support\tools\gimagex\x64\gimagex.exe /apply D:\sources\%IMAGE% 1 C:\
+    "D:\support\tools\gimagex\x64\gimagex.exe" /apply "!SOURCE_DRIVE!\sources\!IMAGE!" 1 C:\
 )
+
+endlocal
 
 
 :: Копируем MAS_AIO.cmd
