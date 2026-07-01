@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ISO="tiny10x6423h2.iso"
+ISO="Win10_21H1_Russian_x64.iso"
 SRC="/ntfs-2TB/vm/ISO/$ISO"
 DEST="/ntfs-2TB/vm/ISO/win10_iso_copy"
 ORIGINAL_ISO="/ntfs-2TB/vm/ISO/win10_bootable.iso"
@@ -9,6 +9,7 @@ MARKER="/ntfs-2TB/vm/win10/installed.flag"
 VM_NAME="win10"
 WIM_PATH="$DEST/sources/boot.wim"
 CMD_STR="add winpeshl.ini /Windows/System32/winpeshl.ini"
+WIM_FILE="$DEST/sources/install.wim"
 
 doas bhyvectl --destroy --vm="$VM_NAME"
 rm $MARKER
@@ -66,12 +67,31 @@ wimlib-imagex update "$WIM_PATH" "$TARGET_INDEX" --command="$CMD_STR"
 
 # Создание кастомного загрузочного ISO
 echo "[*] Создание загрузочного ISO образа..."
-mkisofs -V "Win10_Boot" -UDF -v \
-  -b boot/etfsboot.com -no-emul-boot -boot-load-size 8 \
-  -eltorito-alt-boot \
-  -eltorito-boot efi/microsoft/boot/efisys.bin -no-emul-boot \
-  -o "$ORIGINAL_ISO" \
-  "$DEST"
+if [ -f "$WIM_FILE" ] && [ "$(stat -f%z "$WIM_FILE")" -gt 4294967296 ]; then
+    echo "[*] install.wim > 4GB, используем xorriso (UDF)..."
+
+mkisofs -o "$ORIGINAL_ISO" \
+  -v -V "Windows10" \
+  -iso-level 3 \
+  -UDF \
+  -boot-load-size 1 \
+  -no-emul-boot \
+  -b efi/microsoft/boot/efisys.bin \
+ "$DEST"
+
+
+else
+    echo "[*] install.wim <= 4GB, используем mkisofs..."
+
+    mkisofs -V "Win10_Boot" -UDF -v \
+      -b boot/etfsboot.com \
+        -no-emul-boot -boot-load-size 8 \
+      -eltorito-alt-boot \
+      -eltorito-boot efi/microsoft/boot/efisys.bin \
+        -no-emul-boot \
+      -o "$ORIGINAL_ISO" \
+      "$DEST"
+fi
 
 doas rm /ntfs-2TB/vm/win10/win10.img
 truncate -s 55G /ntfs-2TB/vm/win10/win10.img
