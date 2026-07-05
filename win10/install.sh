@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ISO="Win10_21H1_Russian_x64.iso"
+ISO="tiny10 21H2 x64 2209.iso"
 SRC="/ntfs-2TB/vm/ISO/$ISO"
 DEST="/ntfs-2TB/vm/ISO/win10_iso_copy"
 ORIGINAL_ISO="/ntfs-2TB/vm/ISO/win10_bootable.iso"
