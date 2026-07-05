@@ -13,15 +13,38 @@ WIM_FILE="$DEST/sources/install.wim"
 
 doas bhyvectl --destroy --vm="$VM_NAME"
 rm $MARKER
+rm -fr "$DEST"
+rm  "$ORIGINAL_ISO"
 mkdir -p "$DEST"
 
 
-for prog in 7z wimextract wimlib-imagex mkisofs cp mkdir ; do
-    if ! command -v "$prog" >/dev/null 2>&1; then
-        echo "Ошибка: программа '$prog' не найдена."
-        exit 1
+
+# Список пакетов FreeBSD для проверки (через пробел)
+REQUIRED_PKGS="archivers/7-zip sysutils/wimlib sysutils/cdrtools"
+MISSING_PKGS=""
+
+# Цикл проверки установленных пакетов
+for pkg in $REQUIRED_PKGS; do
+    if ! pkg info --exists "$pkg" >/dev/null 2>&1; then
+        MISSING_PKGS="$MISSING_PKGS $pkg"
     fi
 done
+
+# Если нашли отсутствующие пакеты
+if [ -n "$MISSING_PKGS" ]; then
+    echo "Ошибка: В системе не установлены необходимые пакеты:"
+    for pkg in $MISSING_PKGS; do
+        echo "  - $pkg"
+    done
+    echo ""
+    echo "Для их установки выполните команду от root:"
+    echo "pkg install$MISSING_PKGS"
+    exit 1
+fi
+
+echo "Все необходимые пакеты установлены. Продолжение работы..."
+
+
 
 
 if [ -f "$SRC" ]; then
