@@ -73,6 +73,18 @@ mklink "%userprofile%\Desktop\AmneziaVPN.exe" "C:\app\AmneziaVPN_4.8.19.0_x64\Am
 mklink "%userprofile%\Desktop\FreeTube.exe" "C:\app\freetube-0.24.1-beta-win-x64-portable\FreeTube.exe"
 mklink "%userprofile%\Desktop\GTweak.exe" "C:\app\GTweak\GTweak.exe"
 
+(
+echo Set WshShell = CreateObject^("WScript.Shell"^)
+echo Set Shortcut = WshShell.CreateShortcut^("%userprofile%\Desktop\Firefox Portable.lnk"^)
+echo Shortcut.TargetPath = "C:\app\Firefox Setup 152.0.2\core\portable.bat"
+echo Shortcut.WorkingDirectory = "C:\app\Firefox Setup 152.0.2\core\"
+echo Shortcut.IconLocation = "C:\app\Firefox Setup 152.0.2\core\firefox.exe, 0"
+echo Shortcut.Save
+) > "%temp%\make_lnk.vbs" & cscript //nologo "%temp%\make_lnk.vbs" & del "%temp%\make_lnk.vbs"
+
+
+
+
 if %errorlevel% neq 0 (
     echo WARNING: Some drivers were not installed (possibly no GPU detected yet).
 ) else (
