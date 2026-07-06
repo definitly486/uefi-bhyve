@@ -64,6 +64,14 @@ netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=
 reg add "HKLM\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters" /v AllowInsecureGuestAuth /t REG_DWORD /d 1 /f
 net use Z: \\192.168.8.101\Share
 
+:: Отключение брандмауэра для всех профилей сети в реестре
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\DomainProfile" /v EnableFirewall /t REG_DWORD /d 0 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\PublicProfile" /v EnableFirewall /t REG_DWORD /d 0 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile" /v EnableFirewall /t REG_DWORD /d 0 /f
+
+echo Брандмауэр успешно отключен в реестре.
+echo Перезагрузите компьютер для применения изменений.
+
 
 ::создание ссылок
 
