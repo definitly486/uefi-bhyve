@@ -73,6 +73,22 @@ echo Брандмауэр успешно отключен в реестре.
 echo Перезагрузите компьютер для применения изменений.
 
 
+::  Включение RDP в реестре
+reg add "HKLM\System\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
+
+:: 2. Настройка безопасной авторизации (NLA) — рекомендуется
+reg add "HKLM\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /t REG_DWORD /d 1 /f
+
+:: 3. Запуск и перевод службы RDP в автоматический режим
+sc config TermService start= auto
+net start TermService
+
+:: 4. Открытие портов в брандмауэре Windows
+netsh advfirewall firewall set rule group="remote desktop" new enable=Yes
+
+echo RDP успешно включен!
+
+
 ::создание ссылок
 
 mklink "%userprofile%\Desktop\portable.bat" "C:\app\Firefox Setup 152.0.2\core\portable.bat"
