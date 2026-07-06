@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LayoutModificationTemplate Version="1"
+ xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification"
+ xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout"
+ xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout"
+ xmlns:taskbar="http://schemas.microsoft.com/Start/2014/TaskbarLayout">
+<CustomTaskbarLayoutCollection PinListPlacement="Replace">
+<defaultlayout:TaskbarLayout><taskbar:TaskbarPinList>
+<taskbar:DesktopApp DesktopApplicationID="Microsoft.Windows.Explorer"/>
+<taskbar:DesktopApp DesktopApplicationLinkPath="%ProgramData%\Microsoft\Windows\Start Menu\Programs\Accessories\Notepad.lnk"/>
+<taskbar:DesktopApp DesktopApplicationID="Microsoft.Windows.PowerShell"/>
+</taskbar:TaskbarPinList></defaultlayout:TaskbarLayout>
+</CustomTaskbarLayoutCollection>
+</LayoutModificationTemplate>

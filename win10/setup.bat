@@ -78,6 +78,11 @@ endlocal
 copy D:\MAS_AIO.cmd C:\
 
 
+::копируем LayoutModification.xml
+
+md "C:\Users\Default\AppData\Local\Microsoft\Windows\Shell" 2>nul
+copy "D:\LayoutModification.xml" "C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\" /Y
+
 :: Создаем необходимую папку
 md "C:\Windows\Panther" 2>nul
 

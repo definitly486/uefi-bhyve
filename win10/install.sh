@@ -68,6 +68,7 @@ cp firefox.ps1                          "$DEST/"
 cp Microsoft.PowerShell_profile.ps1     "$DEST/"
 cp SwitchToFreeBSD.sh                   "$DEST/"
 cp monitor.sh                           "$DEST/"
+cp LayoutModification.xml               "$DEST/"
 
 #отключение запроса "нажмите чтобы загрузиться с cd"
 rm $DEST/efi/microsoft/boot/efisys.bin
@@ -97,6 +98,8 @@ mkisofs -o "$ORIGINAL_ISO" \
   -v -V "Windows10" \
   -iso-level 3 \
   -UDF \
+  -J \
+  -joliet-long \
   -boot-load-size 1 \
   -no-emul-boot \
   -b efi/microsoft/boot/efisys.bin \
