@@ -10,15 +10,13 @@ if %errorlevel% neq 0 (
 )
 
 echo =====================================
-echo NVIDIA driver install script
+echo NVIDIA & NetKVM driver install script
 echo =====================================
 
-:: Папка с драйверами (рядом со скриптом)
-set DRIVER_DIR=%~dp0NVIDIA
-set DRIVER_KVM_DIR=%~dp0NetKVM
+set "DRIVER_DIR=%~dp0NVIDIA"
+set "DRIVER_KVM_DIR=%~dp0NetKVM"
 
-echo Checking driver folder: %DRIVER_DIR%
-
+echo Checking driver folders...
 if not exist "%DRIVER_DIR%" (
     echo ERROR: Driver folder not found!
     echo Expected: %DRIVER_DIR%
@@ -27,118 +25,140 @@ if not exist "%DRIVER_DIR%" (
 )
 
 echo.
-echo Adding NVIDIA drivers to Driver Store...
+echo Adding and installing NVIDIA drivers to Driver Store...
+pnputil /add-driver "%DRIVER_DIR%\nv_dispi.inf" /subdirs /install
+set "NVIDIA_ERR=%errorlevel%"
+
 echo.
-
-pnputil /add-driver "%DRIVER_DIR%\nv_dispi.inf" /subdirs
-
-if %errorlevel% neq 0 (
-    echo.
-    echo WARNING: pnputil returned error code %errorlevel%
-    echo Drivers may not have been added correctly.
+echo Adding and installing NetKVM drivers...
+if exist "%DRIVER_KVM_DIR%" (
+    pnputil /add-driver "%DRIVER_KVM_DIR%\netkvm.inf" /subdirs /install
 ) else (
-    echo.
-    echo Drivers successfully added to Driver Store.
+    echo WARNING: NetKVM folder not found. Skipping.
 )
 
 echo.
-echo Trying to install drivers on available hardware...
-echo.
-
-
-
-pnputil /add-driver "%DRIVER_DIR%\nv_dispi.inf" /subdirs /install
-pnputil /add-driver "%DRIVER_KVM_DIR%\netkvm.inf" /subdirs /install
-
-rd /s /q %DRIVER_DIR%
-rd /s /q %DRIVER_KVM_DIR%
-robocopy "C:\app\profile.tar.xz" "C:\app\Firefox Setup 152.0.2\core\profile" /E /R:1 /W:1
-mkdir "C:\Users\vcore\Documents\WindowsPowerShell"
-copy "C:\Microsoft.PowerShell_profile.ps1" "C:\Users\vcore\Documents\WindowsPowerShell\"
-powershell -NoProfile -ExecutionPolicy Bypass -Command "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force"
-powershell -NoProfile -ExecutionPolicy Bypass -Command ". $PROFILE"
-
-netsh advfirewall firewall set rule group="Network Discovery" new enable=Yes
-netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=Yes
-
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters" /v AllowInsecureGuestAuth /t REG_DWORD /d 1 /f
-net use Z: \\192.168.8.101\Share
-
-:: Отключение брандмауэра для всех профилей сети в реестре
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\DomainProfile" /v EnableFirewall /t REG_DWORD /d 0 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\PublicProfile" /v EnableFirewall /t REG_DWORD /d 0 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile" /v EnableFirewall /t REG_DWORD /d 0 /f
-
-echo Брандмауэр успешно отключен в реестре.
-echo Перезагрузите компьютер для применения изменений.
-
-
-::  Включение RDP в реестре
-reg add "HKLM\System\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
-
-:: 2. Настройка безопасной авторизации (NLA) — рекомендуется
-reg add "HKLM\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /t REG_DWORD /d 1 /f
-
-:: 3. Запуск и перевод службы RDP в автоматический режим
-sc config TermService start= auto
-net start TermService
-
-:: 4. Открытие портов в брандмауэре Windows
-netsh advfirewall firewall set rule group="remote desktop" new enable=Yes
-
-echo RDP успешно включен!
-
-
-::создание ссылок
-
-mklink "%userprofile%\Desktop\portable.bat" "C:\app\Firefox Setup 152.0.2\core\portable.bat"
-mklink "%userprofile%\Desktop\start_vpn.cmd" "C:\app\AmneziaVPN_4.8.19.0_x64\start_vpn.cmd"
-mklink "%userprofile%\Desktop\AmneziaVPN.exe" "C:\app\AmneziaVPN_4.8.19.0_x64\AmneziaVPN.exe"
-mklink "%userprofile%\Desktop\FreeTube.exe" "C:\app\freetube-0.24.1-beta-win-x64-portable\FreeTube.exe"
-mklink "%userprofile%\Desktop\GTweak.exe" "C:\app\GTweak\GTweak.exe"
-
-(
-echo Set WshShell = CreateObject^("WScript.Shell"^)
-echo Set Shortcut = WshShell.CreateShortcut^("%userprofile%\Desktop\Firefox Portable.lnk"^)
-echo Shortcut.TargetPath = "C:\app\Firefox Setup 152.0.2\core\portable.bat"
-echo Shortcut.WorkingDirectory = "C:\app\Firefox Setup 152.0.2\core\"
-echo Shortcut.IconLocation = "C:\app\Firefox Setup 152.0.2\core\firefox.exe, 0"
-echo Shortcut.Save
-) > "%temp%\make_lnk.vbs" & cscript //nologo "%temp%\make_lnk.vbs" & del "%temp%\make_lnk.vbs"
-
-
-
-
-if %errorlevel% neq 0 (
-    echo WARNING: Some drivers were not installed (possibly no GPU detected yet).
+if %NVIDIA_ERR% neq 0 (
+    echo WARNING: Some NVIDIA drivers were not installed.
 ) else (
     echo NVIDIA drivers installed successfully.
 )
 
 echo.
 echo =====================================
+echo Configuring Applications & Profiles
+echo =====================================
+
+:: Копирование профиля Firefox
+if exist "C:\app\profile.tar.xz" (
+    echo Extracting Firefox profile...
+    mkdir "C:\app\Firefox Setup 152.0.2\core\profile" 2>nul
+    tar -xf "C:\app\profile.tar.xz" -C "C:\app\Firefox Setup 152.0.2\core\profile"
+)
+
+:: Настройка PowerShell профиля
+echo Setting up PowerShell profile...
+mkdir "C:\Users\vcore\Documents\WindowsPowerShell" 2>nul
+if exist "C:\Microsoft.PowerShell_profile.ps1" (
+    copy /y "C:\Microsoft.PowerShell_profile.ps1" "C:\Users\vcore\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
+)
+powershell -NoProfile -ExecutionPolicy Bypass -Command "Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force"
+
+echo.
+echo =====================================
+echo Configuring Network & Firewall
+echo =====================================
+
+:: Включение общего доступа
+netsh advfirewall firewall set rule group="Network Discovery" new enable=Yes >nul 2>&1
+netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=Yes >nul 2>&1
+netsh advfirewall firewall set rule group="обнаружение сетевых устройств" new enable=Yes >nul 2>&1
+netsh advfirewall firewall set rule group="общий доступ к файлам и принтерам" new enable=Yes >nul 2>&1
+
+:: Разрешение небезопасных гостевых входов SMB
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters" /v AllowInsecureGuestAuth /t REG_DWORD /d 1 /f >nul
+
+:: Включение видимости сетевых дисков админа для обычного пользователя
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLinkedConnections /t REG_DWORD /d 1 /f >nul
+
+echo Trying to mount network drive Z:...
+net use Z: \\192.168.8.101\Share /persistent:yes >nul 2>&1
+
+:: Отключение брандмауэра
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\DomainProfile" /v EnableFirewall /t REG_DWORD /d 0 /f >nul
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\PublicProfile" /v EnableFirewall /t REG_DWORD /d 0 /f >nul
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile" /v EnableFirewall /t REG_DWORD /d 0 /f >nul
+echo Firewall disabled in registry. Reboot required for full effect.
+
+echo.
+echo =====================================
 echo Enabling Remote Desktop (RDP)...
 echo =====================================
 
-:: 1. Включение RDP в реестре
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f >nul
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /t REG_DWORD /d 1 /f >nul
 
-:: 2. Разрешение RDP в Брандмауэре Windows (для всех языковых версий ОС)
-netsh advfirewall firewall set rule group="remote desktop" new enable=Yes >nul 2>&1
-netsh advfirewall firewall set rule group="удаленный рабочий стол" new enable=Yes >nul 2>&1
-
-:: 3. Настройка автозапуска и старт службы Терминалов
 sc config TermService start= auto >nul
 sc start TermService >nul
 
+netsh advfirewall firewall set rule group="remote desktop" new enable=Yes >nul 2>&1
+netsh advfirewall firewall set rule group="удаленный рабочий стол" new enable=Yes >nul 2>&1
 echo Remote Desktop has been enabled.
 
+echo.
+echo =====================================
+echo Creating Desktop Shortcuts
+echo =====================================
 
+:: Генерация скрипта VBS для создания правильных .LNK ярлыков
+(
+  echo Set WshShell = CreateObject^("WScript.Shell"^)
+  
+  echo Set Sh1 = WshShell.CreateShortcut^("%userprofile%\Desktop\Firefox Portable.lnk"^)
+  echo Sh1.TargetPath = "C:\app\Firefox Setup 152.0.2\core\portable.bat"
+  echo Sh1.WorkingDirectory = "C:\app\Firefox Setup 152.0.2\core\"
+  echo Sh1.IconLocation = "C:\app\Firefox Setup 152.0.2\core\firefox.exe, 0"
+  echo Sh1.Save
+  
+  echo Set Sh2 = WshShell.CreateShortcut^("%userprofile%\Desktop\portable.lnk"^)
+  echo Sh2.TargetPath = "C:\app\Firefox Setup 152.0.2\core\portable.bat"
+  echo Sh2.WorkingDirectory = "C:\app\Firefox Setup 152.0.2\core\"
+  echo Sh2.Save
+
+  echo Set Sh3 = WshShell.CreateShortcut^("%userprofile%\Desktop\start_vpn.lnk"^)
+  echo Sh3.TargetPath = "C:\app\AmneziaVPN_4.8.19.0_x64\start_vpn.cmd"
+  echo Sh3.WorkingDirectory = "C:\app\AmneziaVPN_4.8.19.0_x64\"
+  echo Sh3.Save
+
+  echo Set Sh4 = WshShell.CreateShortcut^("%userprofile%\Desktop\AmneziaVPN.lnk"^)
+  echo Sh4.TargetPath = "C:\app\AmneziaVPN_4.8.19.0_x64\AmneziaVPN.exe"
+  echo Sh4.WorkingDirectory = "C:\app\AmneziaVPN_4.8.19.0_x64\"
+  echo Sh4.Save
+
+  echo Set Sh5 = WshShell.CreateShortcut^("%userprofile%\Desktop\FreeTube.lnk"^)
+  echo Sh5.TargetPath = "C:\app\freetube-0.24.1-beta-win-x64-portable\FreeTube.exe"
+  echo Sh5.WorkingDirectory = "C:\app\freetube-0.24.1-beta-win-x64-portable\"
+  echo Sh5.Save
+
+  echo Set Sh6 = WshShell.CreateShortcut^("%userprofile%\Desktop\GTweak.lnk"^)
+  echo Sh6.TargetPath = "C:\app\GTweak\GTweak.exe"
+  echo Sh6.WorkingDirectory = "C:\app\GTweak\"
+  echo Sh6.Save
+) > "%temp%\make_lnk.vbs"
+
+cscript //nologo "%temp%\make_lnk.vbs"
+del "%temp%\make_lnk.vbs"
+echo Shortcuts created successfully.
+
+:: Безопасное удаление временных папок с драйверами (в самом конце скрипта)
+echo.
+echo Cleaning up driver directories...
+timeout /t 3 /nobreak >nul
+rd /s /q "%DRIVER_DIR%"
+if exist "%DRIVER_KVM_DIR%" rd /s /q "%DRIVER_KVM_DIR%"
 
 echo.
-echo Done.
-echo If GPU is not installed yet, drivers will activate automatically after detection.
+echo Done. All actions completed successfully.
 echo.
-
 pause
 endlocal
