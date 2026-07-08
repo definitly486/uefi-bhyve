@@ -49,13 +49,6 @@ echo =====================================
 echo Configuring Applications & Profiles
 echo =====================================
 
-:: Копирование профиля Firefox
-if exist "C:\app\profile.tar.xz" (
-    echo Extracting Firefox profile...
-    mkdir "C:\app\Firefox Setup 152.0.2\core\profile" 2>nul
-    tar -xf "C:\app\profile.tar.xz" -C "C:\app\Firefox Setup 152.0.2\core\profile"
-)
-
 :: Настройка PowerShell профиля
 echo Setting up PowerShell profile...
 mkdir "C:\Users\vcore\Documents\WindowsPowerShell" 2>nul
