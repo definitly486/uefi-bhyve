@@ -96,7 +96,45 @@ sc start TermService >nul
 
 netsh advfirewall firewall set rule group="remote desktop" new enable=Yes >nul 2>&1
 netsh advfirewall firewall set rule group="удаленный рабочий стол" new enable=Yes >nul 2>&1
-echo Remote Desktop has been enabled.
+
+:: [ДОБАВЛЕНО] Разрешение RemoteApp и регистрация Блокнота
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList" /v fDisabledAllowList /t REG_DWORD /d 1 /f >nul
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\notepad" /v Name /t REG_SZ /d "Notepad" /f >nul
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\notepad" /v Path /t REG_SZ /d "C:\Windows\System32\notepad.exe" /f >nul
+
+echo Remote Desktop and RemoteApp for Notepad have been enabled.
+
+
+set "KEY=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\firefox"
+
+echo Добавление Firefox Portable в RemoteApp...
+
+reg add "%KEY%" /v "CommandLineSetting" /t REG_DWORD /d 1 /f
+reg add "%KEY%" /v "IconIndex" /t REG_DWORD /d 0 /f
+reg add "%KEY%" /v "IconPath" /t REG_SZ /d "" /f
+reg add "%KEY%" /v "Name" /t REG_SZ /d "Firefox Portable" /f
+reg add "%KEY%" /v "Path" /t REG_SZ /d "C:\app\Firefox Setup 152.0.2\core\portable.bat" /f
+reg add "%KEY%" /v "ShowInTSWA" /t REG_DWORD /d 1 /f
+reg add "%KEY%" /v "VPath" /t REG_SZ /d "" /f
+
+echo.
+echo [ГОТОВО] Настройки реестра успешно применены.
+
+
+set "KEY=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\OOSU10"
+
+echo Добавление O&O ShutUp10 в RemoteApp...
+
+reg add "%KEY%" /v "CommandLineSetting" /t REG_DWORD /d 1 /f
+reg add "%KEY%" /v "IconIndex" /t REG_DWORD /d 0 /f
+reg add "%KEY%" /v "IconPath" /t REG_SZ /d "C:\app\OOSU10\OOSU10.exe" /f
+reg add "%KEY%" /v "Name" /t REG_SZ /d "O&O ShutUp10" /f
+reg add "%KEY%" /v "Path" /t REG_SZ /d "C:\app\OOSU10\OOSU10.exe" /f
+reg add "%KEY%" /v "ShowInTSWA" /t REG_DWORD /d 1 /f
+reg add "%KEY%" /v "VPath" /t REG_SZ /d "" /f
+
+echo.
+echo [ГОТОВО] O&O ShutUp10 успешно добавлен в RemoteApp.
 
 echo.
 echo =====================================
@@ -137,6 +175,11 @@ echo =====================================
   echo Sh6.TargetPath = "C:\app\GTweak\GTweak.exe"
   echo Sh6.WorkingDirectory = "C:\app\GTweak\"
   echo Sh6.Save
+
+  echo Set Sh7 = WshShell.CreateShortcut^("%userprofile%\Desktop\OOSU10.lnk"^)
+  echo Sh7.TargetPath = "C:\app\OOSU10\OOSU10.exe"
+  echo Sh7.WorkingDirectory = "C:\app\OOSU10\"
+  echo Sh7.Save
 ) > "%temp%\make_lnk.vbs"
 
 cscript //nologo "%temp%\make_lnk.vbs"
