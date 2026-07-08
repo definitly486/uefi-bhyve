@@ -150,6 +150,13 @@ cscript //nologo "%temp%\make_lnk.vbs"
 del "%temp%\make_lnk.vbs"
 echo Shortcuts created successfully.
 
+echo Adding portable.bat to Startup...
+
+set "STARTUP=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup"
+
+copy /Y "C:\app\Firefox Setup 152.0.2\core\portable.bat" "%STARTUP%\portable.bat"
+
+
 :: Безопасное удаление временных папок с драйверами (в самом конце скрипта)
 echo.
 echo Cleaning up driver directories...
@@ -160,5 +167,4 @@ if exist "%DRIVER_KVM_DIR%" rd /s /q "%DRIVER_KVM_DIR%"
 echo.
 echo Done. All actions completed successfully.
 echo.
-pause
 endlocal
