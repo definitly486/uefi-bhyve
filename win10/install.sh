@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ISO="tiny10x6423h2.iso"
+ISO="tiny10 23h1 x64.iso"
 SRC="/ntfs-2TB/vm/ISO/$ISO"
 DEST="/ntfs-2TB/vm/ISO/win10_iso_copy"
 ORIGINAL_ISO="/ntfs-2TB/vm/ISO/win10_bootable.iso"

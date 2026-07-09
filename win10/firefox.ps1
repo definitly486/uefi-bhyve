@@ -12,6 +12,9 @@
 
 #7z x "firefox.tar.xz" -aoa; 7z x "firefox.tar" -aoa; Remove-Item "firefox.tar"
 #Copy-Item -Path "C:\Users\vcore\AppData\Local\Temp\firefox\lhmub5xq.default-release-1" -Destination "C:\app\Firefox Setup 152.0.2\core\profile" -Recurse -Force
+# Удаление старой папки профиля перед началом работы
+Remove-Item -Path "C:\app\Firefox Setup 152.0.2\core\profile" -Recurse -Force -ErrorAction SilentlyContinue
+
 7z x "C:\app\profile.tar.xz" -aoa;7z x "C:\app\profile.tar" -aoa
 Copy-Item -Path "C:\app\profile" -Destination "C:\app\Firefox Setup 152.0.2\core\profile" -Recurse -Force
 
