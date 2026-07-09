@@ -105,6 +105,28 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSApp
 echo Remote Desktop and RemoteApp for Notepad have been enabled.
 
 
+
+echo === Настройка реестра для RemoteApp SDRSharp ===
+
+:: 1. Включаем глобальную поддержку RemoteApp в системе
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList" /v fDisabledAllowList /t REG_DWORD /d 1 /f
+
+:: 2. Создаем ветку приложения и задаем путь к вашему батнику (измените путь, если он другой)
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\SDRSharp" /v Path /t REG_SZ /d "C:\app\sdrsharp-x64\run_sdr.bat" /f
+
+:: 3. Задаем обязательные системные параметры для запуска
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\SDRSharp" /v CommandLineSetting /t REG_DWORD /d 0 /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\SDRSharp" /v IconIndex /t REG_DWORD /d 0 /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\SDRSharp" /v ShowInTSWA /t REG_DWORD /d 1 /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\SDRSharp" /v Name /t REG_SZ /d "SDRSharp.dotnet8" /f
+
+echo === Проверка внесенных изменений ===
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\SDRSharp"
+
+echo Настройка завершена. Теперь вы можете использовать APP_NAME="||SDRSharp" в xfreerdp.
+
+
+
 set "KEY=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\firefox"
 
 echo Добавление Firefox Portable в RemoteApp...
