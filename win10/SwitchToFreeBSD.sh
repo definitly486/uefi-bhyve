@@ -1,4 +1,5 @@
 #!/bin/sh
+
 # Определение среды
 if [ -n "$PSModulePath" ]; then
   ENV_TYPE="powershell"
