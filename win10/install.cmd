@@ -176,11 +176,6 @@ echo =====================================
   echo Sh1.WorkingDirectory = "C:\app\Firefox Setup 152.0.2\core\"
   echo Sh1.IconLocation = "C:\app\Firefox Setup 152.0.2\core\firefox.exe, 0"
   echo Sh1.Save
-  
-  echo Set Sh2 = WshShell.CreateShortcut^("%userprofile%\Desktop\portable.lnk"^)
-  echo Sh2.TargetPath = "C:\app\Firefox Setup 152.0.2\core\portable.bat"
-  echo Sh2.WorkingDirectory = "C:\app\Firefox Setup 152.0.2\core\"
-  echo Sh2.Save
 
   echo Set Sh3 = WshShell.CreateShortcut^("%userprofile%\Desktop\start_vpn.lnk"^)
   echo Sh3.TargetPath = "C:\app\AmneziaVPN_4.8.19.0_x64\start_vpn.cmd"
@@ -206,6 +201,11 @@ echo =====================================
   echo Sh7.TargetPath = "C:\app\OOSU10\OOSU10.exe"
   echo Sh7.WorkingDirectory = "C:\app\OOSU10\"
   echo Sh7.Save
+
+  echo Set Sh8 = WshShell.CreateShortcut^("%userprofile%\Desktop\chrome.lnk"^)
+  echo Sh8.TargetPath = "C:\app\Chrome-bin\chrome.exe"
+  echo Sh8.WorkingDirectory = "C:\app\Chrome-bin\"
+  echo Sh8.Save
 ) > "%temp%\make_lnk.vbs"
 
 cscript //nologo "%temp%\make_lnk.vbs"
