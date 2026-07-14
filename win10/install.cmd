@@ -13,8 +13,8 @@ echo =====================================
 echo NVIDIA & NetKVM driver install script
 echo =====================================
 
-set "DRIVER_DIR=%~dp0NVIDIA"
-set "DRIVER_KVM_DIR=%~dp0NetKVM"
+set "DRIVER_DIR=D:\NVIDIA"
+set "DRIVER_KVM_DIR=D:\NetKVM"
 
 echo Checking driver folders...
 if not exist "%DRIVER_DIR%" (
