@@ -87,6 +87,18 @@ reg add "HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\Firewall
 reg add "HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile" /v EnableFirewall /t REG_DWORD /d 0 /f >nul
 echo Firewall disabled in registry. Reboot required for full effect.
 
+
+
+::Автологин
+
+
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AutoAdminLogon /t REG_SZ /d 1 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultUserName /t REG_SZ /d "vcore" /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultPassword /t REG_SZ /d "639639" /f
+
+
+
+
 echo.
 echo =====================================
 echo Enabling Remote Desktop (RDP)...
@@ -206,6 +218,17 @@ echo =====================================
   echo Sh8.TargetPath = "C:\app\Chrome-bin\chrome.exe"
   echo Sh8.WorkingDirectory = "C:\app\Chrome-bin\"
   echo Sh8.Save
+
+  echo Set Sh9 = WshShell.CreateShortcut^("%userprofile%\Desktop\chrome.lnk"^)
+  echo Sh9.TargetPath = "C:\app\Brave\Brave.exe"
+  echo Sh9.WorkingDirectory = "C:\app\Brave\"
+  echo Sh9.Save
+
+  echo Set Sh10 = WshShell.CreateShortcut^("%userprofile%\Desktop\retrobar.lnk"^)
+  echo Sh10.TargetPath = "C:\app\RetroBar.Portable.64-bit\retrobar.bat"
+  echo Sh10.WorkingDirectory = "C:\app\RetroBar.Portable.64-bit\"
+  echo Sh10.IconLocation = "C:\app\RetroBar.Portable.64-bit\RetroBar.exe, 0"
+  echo Sh10.Save
 ) > "%temp%\make_lnk.vbs"
 
 cscript //nologo "%temp%\make_lnk.vbs"
