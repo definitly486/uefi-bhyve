@@ -56,9 +56,9 @@ fi
 
 # Копирование драйверов и скриптов автоматизации
 echo "[*] Копирование дополнительных файлов..."
-nice -n 15 cp -R /ntfs-2TB/vm/NVIDIA    "$DEST/"
-nice -n 15 cp -R /ntfs-2TB/vm/NetKVM    "$DEST/"
-nice -n 15 cp -R /ntfs-2TB/vm/app       "$DEST/"
+#nice -n 15 cp -R /ntfs-2TB/vm/NVIDIA    "$DEST/"
+#nice -n 15 cp -R /ntfs-2TB/vm/NetKVM    "$DEST/"
+#nice -n 15 cp -R /ntfs-2TB/vm/app       "$DEST/"
 cp ../vista/MAS_AIO.cmd                 "$DEST/"
 cp autounattend.xml                     "$DEST/"
 cp install.cmd                          "$DEST/"
@@ -135,6 +135,7 @@ if [ ! -f "$MARKER" ]; then
 else
     echo "[+] Windows установлена. Подключаем пустой ISO..."
     ln -sfn "$EMPTY_ISO" "$VM_ISO"
+    APP_DISK="-s 3:1,ahci-hd,/bhyve/win10/app.img"
 fi
 
 # 2. Основной запуск bhyve
@@ -144,7 +145,8 @@ doas bhyve -A -H -P -S \
   -s 10:0,virtio-net,tap0 \
   -s 5,fbuf,tcp=0.0.0.0:5900,w=1918,h=1058 \
   -s 3:0,ahci-hd,/ntfs-2TB/vm/win10/win10.img \
-  -s 3:1,ahci-cd,"$VM_ISO" \
+   $APP_DISK \
+  -s 3:2,ahci-cd,"$VM_ISO" \
   -l bootrom,/bhyve/win10/BHYVE_BHF_UEFI.fd \
   -c cpus=4,sockets=1,cores=4,threads=1 \
   -m 4G "$VM_NAME"
