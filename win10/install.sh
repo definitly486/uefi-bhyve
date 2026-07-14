@@ -69,6 +69,7 @@ cp Microsoft.PowerShell_profile.ps1     "$DEST/"
 cp SwitchToFreeBSD.sh                   "$DEST/"
 cp monitor.sh                           "$DEST/"
 cp LayoutModification.xml               "$DEST/"
+cp autologin.cmd                        "$DEST/"
 
 #отключение запроса "нажмите чтобы загрузиться с cd"
 rm $DEST/efi/microsoft/boot/efisys.bin
