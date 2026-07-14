@@ -184,50 +184,50 @@ echo =====================================
   echo Set WshShell = CreateObject^("WScript.Shell"^)
   
   echo Set Sh1 = WshShell.CreateShortcut^("%userprofile%\Desktop\Firefox Portable.lnk"^)
-  echo Sh1.TargetPath = "C:\app\Firefox Setup 152.0.2\core\portable.bat"
-  echo Sh1.WorkingDirectory = "C:\app\Firefox Setup 152.0.2\core\"
-  echo Sh1.IconLocation = "C:\app\Firefox Setup 152.0.2\core\firefox.exe, 0"
+  echo Sh1.TargetPath = "D:\app\Firefox Setup 152.0.2\core\portable.bat"
+  echo Sh1.WorkingDirectory = "D:\app\Firefox Setup 152.0.2\core\"
+  echo Sh1.IconLocation = "D:\app\Firefox Setup 152.0.2\core\firefox.exe, 0"
   echo Sh1.Save
 
   echo Set Sh3 = WshShell.CreateShortcut^("%userprofile%\Desktop\start_vpn.lnk"^)
-  echo Sh3.TargetPath = "C:\app\AmneziaVPN_4.8.19.0_x64\start_vpn.cmd"
-  echo Sh3.WorkingDirectory = "C:\app\AmneziaVPN_4.8.19.0_x64\"
+  echo Sh3.TargetPath = "D:\app\AmneziaVPN_4.8.19.0_x64\start_vpn.cmd"
+  echo Sh3.WorkingDirectory = "D:\app\AmneziaVPN_4.8.19.0_x64\"
   echo Sh3.Save
 
   echo Set Sh4 = WshShell.CreateShortcut^("%userprofile%\Desktop\AmneziaVPN.lnk"^)
-  echo Sh4.TargetPath = "C:\app\AmneziaVPN_4.8.19.0_x64\AmneziaVPN.exe"
-  echo Sh4.WorkingDirectory = "C:\app\AmneziaVPN_4.8.19.0_x64\"
+  echo Sh4.TargetPath = "D:\app\AmneziaVPN_4.8.19.0_x64\AmneziaVPN.exe"
+  echo Sh4.WorkingDirectory = "D:\app\AmneziaVPN_4.8.19.0_x64\"
   echo Sh4.Save
 
   echo Set Sh5 = WshShell.CreateShortcut^("%userprofile%\Desktop\FreeTube.lnk"^)
-  echo Sh5.TargetPath = "C:\app\freetube-0.24.1-beta-win-x64-portable\FreeTube.exe"
-  echo Sh5.WorkingDirectory = "C:\app\freetube-0.24.1-beta-win-x64-portable\"
+  echo Sh5.TargetPath = "D:\app\freetube-0.24.1-beta-win-x64-portable\FreeTube.exe"
+  echo Sh5.WorkingDirectory = "D:\app\freetube-0.24.1-beta-win-x64-portable\"
   echo Sh5.Save
 
   echo Set Sh6 = WshShell.CreateShortcut^("%userprofile%\Desktop\GTweak.lnk"^)
-  echo Sh6.TargetPath = "C:\app\GTweak\GTweak.exe"
-  echo Sh6.WorkingDirectory = "C:\app\GTweak\"
+  echo Sh6.TargetPath = "D:\app\GTweak\GTweak.exe"
+  echo Sh6.WorkingDirectory = "D:\app\GTweak\"
   echo Sh6.Save
 
   echo Set Sh7 = WshShell.CreateShortcut^("%userprofile%\Desktop\OOSU10.lnk"^)
-  echo Sh7.TargetPath = "C:\app\OOSU10\OOSU10.exe"
-  echo Sh7.WorkingDirectory = "C:\app\OOSU10\"
+  echo Sh7.TargetPath = "D:\app\OOSU10\OOSU10.exe"
+  echo Sh7.WorkingDirectory = "D:\app\OOSU10\"
   echo Sh7.Save
 
   echo Set Sh8 = WshShell.CreateShortcut^("%userprofile%\Desktop\chrome.lnk"^)
-  echo Sh8.TargetPath = "C:\app\Chrome-bin\chrome.exe"
-  echo Sh8.WorkingDirectory = "C:\app\Chrome-bin\"
+  echo Sh8.TargetPath = "D:\app\Chrome-bin\chrome.exe"
+  echo Sh8.WorkingDirectory = "D:\app\Chrome-bin\"
   echo Sh8.Save
 
   echo Set Sh9 = WshShell.CreateShortcut^("%userprofile%\Desktop\chrome.lnk"^)
-  echo Sh9.TargetPath = "C:\app\Brave\Brave.exe"
-  echo Sh9.WorkingDirectory = "C:\app\Brave\"
+  echo Sh9.TargetPath = "D:\app\Brave\Brave.exe"
+  echo Sh9.WorkingDirectory = "D:\app\Brave\"
   echo Sh9.Save
 
   echo Set Sh10 = WshShell.CreateShortcut^("%userprofile%\Desktop\retrobar.lnk"^)
-  echo Sh10.TargetPath = "C:\app\RetroBar.Portable.64-bit\retrobar.bat"
-  echo Sh10.WorkingDirectory = "C:\app\RetroBar.Portable.64-bit\"
-  echo Sh10.IconLocation = "C:\app\RetroBar.Portable.64-bit\RetroBar.exe, 0"
+  echo Sh10.TargetPath = "D:\app\RetroBar.Portable.64-bit\retrobar.bat"
+  echo Sh10.WorkingDirectory = "D:\app\RetroBar.Portable.64-bit\"
+  echo Sh10.IconLocation = "D:\app\RetroBar.Portable.64-bit\RetroBar.exe, 0"
   echo Sh10.Save
 ) > "%temp%\make_lnk.vbs"
 
@@ -239,7 +239,7 @@ echo Adding portable.bat to Startup...
 
 set "STARTUP=%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup"
 
-copy /Y "C:\app\Firefox Setup 152.0.2\core\portable.bat" "%STARTUP%\portable.bat"
+copy /Y "D:\app\Firefox Setup 152.0.2\core\portable.bat" "%STARTUP%\portable.bat"
 
 
 :: Безопасное удаление временных папок с драйверами (в самом конце скрипта)
