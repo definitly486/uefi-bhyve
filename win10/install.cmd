@@ -243,11 +243,11 @@ copy /Y "D:\app\Firefox Setup 152.0.2\core\portable.bat" "%STARTUP%\portable.bat
 
 
 :: Безопасное удаление временных папок с драйверами (в самом конце скрипта)
-echo.
-echo Cleaning up driver directories...
-timeout /t 3 /nobreak >nul
-rd /s /q "%DRIVER_DIR%"
-if exist "%DRIVER_KVM_DIR%" rd /s /q "%DRIVER_KVM_DIR%"
+::echo.
+::echo Cleaning up driver directories...
+::timeout /t 3 /nobreak >nul
+::rd /s /q "%DRIVER_DIR%"
+::if exist "%DRIVER_KVM_DIR%" rd /s /q "%DRIVER_KVM_DIR%"
 
 echo.
 echo Done. All actions completed successfully.

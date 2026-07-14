@@ -16,5 +16,5 @@
 Remove-Item -Path "D:\app\Firefox Setup 152.0.2\core\profile" -Recurse -Force -ErrorAction SilentlyContinue
 
 7z x "D:\app\profile.tar.xz" -aoa;7z x "D:\app\profile.tar" -aoa
-Copy-Item -Path "D:\app\profile" -Destination "C:\app\Firefox Setup 152.0.2\core\profile" -Recurse -Force
+Copy-Item -Path "D:\app\profile" -Destination "D:\app\Firefox Setup 152.0.2\core\profile" -Recurse -Force
 
