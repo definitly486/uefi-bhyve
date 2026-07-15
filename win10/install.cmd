@@ -128,7 +128,7 @@ echo === Настройка реестра для RemoteApp SDRSharp ===
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList" /v fDisabledAllowList /t REG_DWORD /d 1 /f
 
 :: 2. Создаем ветку приложения и задаем путь к вашему батнику (измените путь, если он другой)
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\SDRSharp" /v Path /t REG_SZ /d "C:\app\sdrsharp-x64\run_sdr.bat" /f
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\SDRSharp" /v Path /t REG_SZ /d "D:\app\sdrsharp-x64\run_sdr.bat" /f
 
 :: 3. Задаем обязательные системные параметры для запуска
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\SDRSharp" /v CommandLineSetting /t REG_DWORD /d 0 /f
@@ -151,7 +151,7 @@ reg add "%KEY%" /v "CommandLineSetting" /t REG_DWORD /d 1 /f
 reg add "%KEY%" /v "IconIndex" /t REG_DWORD /d 0 /f
 reg add "%KEY%" /v "IconPath" /t REG_SZ /d "" /f
 reg add "%KEY%" /v "Name" /t REG_SZ /d "Firefox Portable" /f
-reg add "%KEY%" /v "Path" /t REG_SZ /d "C:\app\Firefox Setup 152.0.2\core\portable.bat" /f
+reg add "%KEY%" /v "Path" /t REG_SZ /d "D:\app\Firefox Setup 152.0.2\core\portable.bat" /f
 reg add "%KEY%" /v "ShowInTSWA" /t REG_DWORD /d 1 /f
 reg add "%KEY%" /v "VPath" /t REG_SZ /d "" /f
 
@@ -165,9 +165,9 @@ echo Добавление O&O ShutUp10 в RemoteApp...
 
 reg add "%KEY%" /v "CommandLineSetting" /t REG_DWORD /d 1 /f
 reg add "%KEY%" /v "IconIndex" /t REG_DWORD /d 0 /f
-reg add "%KEY%" /v "IconPath" /t REG_SZ /d "C:\app\OOSU10\OOSU10.exe" /f
+reg add "%KEY%" /v "IconPath" /t REG_SZ /d "D:\app\OOSU10\OOSU10.exe" /f
 reg add "%KEY%" /v "Name" /t REG_SZ /d "O&O ShutUp10" /f
-reg add "%KEY%" /v "Path" /t REG_SZ /d "C:\app\OOSU10\OOSU10.exe" /f
+reg add "%KEY%" /v "Path" /t REG_SZ /d "D:\app\OOSU10\OOSU10.exe" /f
 reg add "%KEY%" /v "ShowInTSWA" /t REG_DWORD /d 1 /f
 reg add "%KEY%" /v "VPath" /t REG_SZ /d "" /f
 
