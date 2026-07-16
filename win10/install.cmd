@@ -229,6 +229,12 @@ echo =====================================
   echo Sh10.WorkingDirectory = "D:\app\RetroBar.Portable.64-bit\"
   echo Sh10.IconLocation = "D:\app\RetroBar.Portable.64-bit\RetroBar.exe, 0"
   echo Sh10.Save
+
+  echo Set Sh9 = WshShell.CreateShortcut^("%userprofile%\Desktop\avz.lnk"^)
+  echo Sh9.TargetPath = "D:\app\avz\avz5rn.exe"
+  echo Sh9.WorkingDirectory = "D:\app\avz\"
+  echo Sh9.Save
+
 ) > "%temp%\make_lnk.vbs"
 
 cscript //nologo "%temp%\make_lnk.vbs"

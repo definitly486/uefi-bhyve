@@ -26,6 +26,8 @@ echo "MD device: $MD"
 gpart recover "$MD" >/dev/null 2>&1
 gpart show "$MD"
 
+ntfsfix -d /dev/${MD}p1
+
 # Обычно первый раздел будет ${MD}p1
 ntfs-3g /dev/${MD}p1 "$MNT"
 
