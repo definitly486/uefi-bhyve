@@ -15,6 +15,7 @@ echo =====================================
 
 set "DRIVER_DIR=D:\NVIDIA\Display.Driver"
 set "DRIVER_KVM_DIR=D:\NetKVM"
+set "DRIVER_VBCABLE_DIR=D:\VBCABLE_Driver_Pack45"
 
 echo Checking driver folders...
 if not exist "%DRIVER_DIR%" (
@@ -54,6 +55,9 @@ if %NVIDIA_ERR% neq 0 (
 ) else (
     echo NVIDIA drivers installed successfully.
 )
+
+
+pnputil /add-driver "%DRIVER_VBCABLE_DIR%\vbMmeCable64_win10.inf" /install
 
 echo.
 echo =====================================
@@ -241,10 +245,16 @@ echo =====================================
   echo Sh10.IconLocation = "D:\app\RetroBar.Portable.64-bit\RetroBar.exe, 0"
   echo Sh10.Save
 
-  echo Set Sh9 = WshShell.CreateShortcut^("%userprofile%\Desktop\avz.lnk"^)
-  echo Sh9.TargetPath = "D:\app\avz5\avz5rn.exe"
-  echo Sh9.WorkingDirectory = "D:\app\avz5\"
-  echo Sh9.Save
+  echo Set Sh11 = WshShell.CreateShortcut^("%userprofile%\Desktop\avz.lnk"^)
+  echo Sh11.TargetPath = "D:\app\avz5\avz5rn.exe"
+  echo Sh11.WorkingDirectory = "D:\app\avz5\"
+  echo Sh11.Save
+
+  echo Set Sh12 = WshShell.CreateShortcut^("%userprofile%\Desktop\SDRSHARP.lnk"^)
+  echo Sh12.TargetPath = "D:\app\sdrsharp-x64\run_sdr.bat"
+  echo Sh12.WorkingDirectory = "D:\app\sdrsharp-x64\"
+  echo Sh12.IconLocation = "D:\app\sdrsharp-x64\SDRSharp.dotnet8.exe, 0"
+  echo Sh12.Save
 
 ) > "%temp%\make_lnk.vbs"
 
