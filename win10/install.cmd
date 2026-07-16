@@ -231,8 +231,8 @@ echo =====================================
   echo Sh10.Save
 
   echo Set Sh9 = WshShell.CreateShortcut^("%userprofile%\Desktop\avz.lnk"^)
-  echo Sh9.TargetPath = "D:\app\avz\avz5rn.exe"
-  echo Sh9.WorkingDirectory = "D:\app\avz\"
+  echo Sh9.TargetPath = "D:\app\avz5\avz5rn.exe"
+  echo Sh9.WorkingDirectory = "D:\app\avz5\"
   echo Sh9.Save
 
 ) > "%temp%\make_lnk.vbs"
