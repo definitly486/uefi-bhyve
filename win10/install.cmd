@@ -13,7 +13,7 @@ echo =====================================
 echo NVIDIA & NetKVM driver install script
 echo =====================================
 
-set "DRIVER_DIR=D:\NVIDIA"
+set "DRIVER_DIR=D:\NVIDIA\Display.Driver"
 set "DRIVER_KVM_DIR=D:\NetKVM"
 
 echo Checking driver folders...
@@ -25,9 +25,20 @@ if not exist "%DRIVER_DIR%" (
 )
 
 echo.
-echo Adding and installing NVIDIA drivers to Driver Store...
-pnputil /add-driver "%DRIVER_DIR%\nv_dispi.inf" /subdirs /install
+echo Adding and installing clean NVIDIA display driver...
+pnputil /add-driver "%DRIVER_DIR%\nv_dispi.inf" /install
 set "NVIDIA_ERR=%errorlevel%"
+
+:: Проверка результата
+if "%NVIDIA_ERR%"=="0" (
+    echo [УСПЕШНО] Видеодрайвер установлен без лишнего софта.
+) else if "%NVIDIA_ERR%"=="3010" (
+    echo [УСПЕШНО] Драйвер добавлен. Система требует перезагрузки.
+) else (
+    echo [ОШИБКА] Не удалось установить драйвер. Код: %NVIDIA_ERR%
+)
+
+
 
 echo.
 echo Adding and installing NetKVM drivers...
