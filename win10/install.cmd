@@ -16,6 +16,7 @@ echo =====================================
 set "DRIVER_DIR=D:\NVIDIA\Display.Driver"
 set "DRIVER_KVM_DIR=D:\NetKVM"
 set "DRIVER_VBCABLE_DIR=D:\VBCABLE_Driver_Pack45"
+set "SETUP_EXE=D:\VBCABLE_Driver_Pack45\VBCABLE_Setup_x64.exe"
 
 echo Checking driver folders...
 if not exist "%DRIVER_DIR%" (
@@ -58,6 +59,7 @@ if %NVIDIA_ERR% neq 0 (
 
 
 pnputil /add-driver "%DRIVER_VBCABLE_DIR%\vbMmeCable64_win10.inf" /install
+"%SETUP_EXE%" -i -h
 
 echo.
 echo =====================================
