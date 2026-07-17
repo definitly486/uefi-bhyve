@@ -258,6 +258,11 @@ echo =====================================
   echo Sh12.IconLocation = "D:\app\sdrsharp-x64\SDRSharp.dotnet8.exe, 0"
   echo Sh12.Save
 
+  echo Set Sh13 = WshShell.CreateShortcut^("%userprofile%\Desktop\start_dsdplus.lnk"^)
+  echo Sh13.TargetPath = "D:\app\DSDPlusFull\run.cmd"
+  echo Sh13.WorkingDirectory = "D:\app\DSDPlusFull\"
+  echo Sh13.Save
+
 ) > "%temp%\make_lnk.vbs"
 
 cscript //nologo "%temp%\make_lnk.vbs"
