@@ -263,6 +263,11 @@ echo =====================================
   echo Sh13.WorkingDirectory = "D:\app\DSDPlusFull\"
   echo Sh13.Save
 
+  echo Set Sh14 = WshShell.CreateShortcut^("%userprofile%\Desktop\SwitchToFreeBSD.lnk"^)
+  echo Sh14.TargetPath = "D:\app\SwitchToFreeBSD.exe"
+  echo Sh14.WorkingDirectory = "D:\app\"
+  echo Sh14.Save
+
 ) > "%temp%\make_lnk.vbs"
 
 cscript //nologo "%temp%\make_lnk.vbs"
