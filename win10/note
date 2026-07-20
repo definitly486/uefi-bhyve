@@ -3,10 +3,11 @@ sudo mdconfig -a -t vnode -f app.img
 sudo gpart create -s GPT /dev/md0
 sudo gpart add -t ms-basic-data /dev/md0
 NTFS_USE_UBLIO=0 doas mkntfs -v -f -L DATA /dev/md0p1 
-sudo mkdir -p /mnt/img 
-sudo ntfs-3g /dev/md0p1 /mnt/img
-rsync -rltvh --progress /ntfs-2TB/vm/app/ /mnt/img/app/
-rsync -rltvh --progress /ntfs-2TB/vm/NetKVM /mnt/img/
-rsync -rltvh --progress /ntfs-2TB/vm/NVIDIA  /mnt/img/
-sudo umount /mnt/img
+sudo mkdir -p /mnt/app 
+sudo ntfs-3g /dev/md0p1 /mnt/app
+rsync -rltvh --progress /ntfs-2TB/vm/app/ /mnt/app/app/
+rsync -rltvh --progress /ntfs-2TB/vm/NetKVM /mnt/app/
+rsync -rltvh --progress /ntfs-2TB/vm/NVIDIA  /mnt/app/
+rsync -rltvh --progress /ntfs-2TB/vm/VBCABLE_Driver_Pack45  /mnt/app/
+sudo umount /mnt/app
 sudo mdconfig -d -u 0
