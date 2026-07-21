@@ -268,6 +268,11 @@ echo =====================================
   echo Sh14.WorkingDirectory = "D:\app\"
   echo Sh14.Save
 
+  echo Set Sh15 = WshShell.CreateShortcut^("%userprofile%\Desktop\TelegramDesktopPortable.lnk"^)
+  echo Sh15.TargetPath = "D:\app\TelegramDesktopPortable\TelegramDesktopPortable.exe"
+  echo Sh15.WorkingDirectory = "D:\app\TelegramDesktopPortable"
+  echo Sh15.Save
+
 ) > "%temp%\make_lnk.vbs"
 
 cscript //nologo "%temp%\make_lnk.vbs"
