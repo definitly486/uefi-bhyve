@@ -14,4 +14,4 @@ fi
 
 echo "NetApp: $IP"
 
-echo Y | xfreerdp /u:vcore  /p:639639 /w:1918 /h:1045  /v:$IP  /drive:home,/home/definitly  /sound
+echo Y | xfreerdp /u:vcore  /p:639639 /w:1918 /h:1045  /v:$IP  /drive:home,/home/definitly  /sound +clipboard
