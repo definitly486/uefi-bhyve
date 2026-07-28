@@ -1,6 +1,9 @@
 @echo off
 setlocal enabledelayedexpansion
 
+
+bcdedit.exe -set testsigning on
+
 :: Проверка и автоматический запрос прав Администратора
 net session >nul 2>&1
 if %errorlevel% neq 0 (
