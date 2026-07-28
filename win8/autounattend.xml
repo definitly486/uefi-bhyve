@@ -38,9 +38,7 @@
 
                 <ProductKey>
 
-                    <Key>
-                        NKJFK-GPHP7-G8C6J-P6JB2-HGV8V
-                    </Key>
+                    <Key>NKJFK-GPHP7-G8C6J-P6JB2-HGV8V</Key>
 
                     <WillShowUI>Never</WillShowUI>
 
@@ -56,8 +54,11 @@
                     <InstallFrom>
 
                         <MetaData wcm:action="add">
+
                             <Key>/IMAGE/INDEX</Key>
+
                             <Value>1</Value>
+
                         </MetaData>
 
                     </InstallFrom>
@@ -95,9 +96,7 @@
 
             <RegisteredOwner>vcore</RegisteredOwner>
 
-            <TimeZone>
-                Russian Standard Time
-            </TimeZone>
+            <TimeZone>Russian Standard Time</TimeZone>
 
 
         </component>
@@ -107,7 +106,7 @@
 
 
 
-    <!-- OOBE -->
+    <!-- Первый запуск -->
     <settings pass="oobeSystem">
 
 
@@ -119,8 +118,11 @@
 
 
             <InputLocale>0419:00000419</InputLocale>
+
             <SystemLocale>ru-RU</SystemLocale>
+
             <UILanguage>ru-RU</UILanguage>
+
             <UserLocale>ru-RU</UserLocale>
 
 
@@ -137,7 +139,6 @@
 
             <OOBE>
 
-
                 <HideEULAPage>true</HideEULAPage>
 
                 <HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
@@ -146,8 +147,9 @@
 
                 <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
 
-                <ProtectYourPC>3</ProtectYourPC>
+                <HideLocalAccountScreen>true</HideLocalAccountScreen>
 
+                <ProtectYourPC>3</ProtectYourPC>
 
             </OOBE>
 
@@ -166,21 +168,15 @@
 
                         <DisplayName>vcore</DisplayName>
 
-                        <Description>
-                            Локальный администратор
-                        </Description>
+                        <Description>Локальный администратор</Description>
 
 
-                        <Group>
-                            Administrators
-                        </Group>
+                        <Group>Администраторы</Group>
 
 
                         <Password>
 
-                            <Value>
-                                639639
-                            </Value>
+                            <Value>639639</Value>
 
                             <PlainText>true</PlainText>
 
@@ -209,12 +205,9 @@
 
                 <Password>
 
-                    <Value>
-                        639639
-                    </Value>
+                    <Value>639639</Value>
 
                     <PlainText>true</PlainText>
-
 
                 </Password>
 
