@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 
-bcdedit.exe -set testsigning on
+
 
 :: Проверка и автоматический запрос прав Администратора
 net session >nul 2>&1
@@ -12,11 +12,14 @@ if %errorlevel% neq 0 (
     exit /b
 )
 
+
+bcdedit.exe -set testsigning on
+
 echo =====================================
 echo NVIDIA & NetKVM driver install script
 echo =====================================
 
-set "DRIVER_DIR=D:\NVIDIA\Display.Driver"
+set "DRIVER_DIR=D:\Graphics"
 set "DRIVER_KVM_DIR=D:\NetKVM"
 set "DRIVER_VBCABLE_DIR=D:\VBCABLE_Driver_Pack45"
 set "SETUP_EXE=D:\VBCABLE_Driver_Pack45\VBCABLE_Setup_x64.exe"
@@ -31,7 +34,7 @@ if not exist "%DRIVER_DIR%" (
 
 echo.
 echo Adding and installing clean NVIDIA display driver...
-pnputil /add-driver "%DRIVER_DIR%\nv_dispi.inf" /install
+pnputil /add-driver "%DRIVER_DIR%\igdlh64.inf" /install
 set "NVIDIA_ERR=%errorlevel%"
 
 :: Проверка результата

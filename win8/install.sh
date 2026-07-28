@@ -73,7 +73,7 @@ cp autologin.cmd                        "$DEST/"
 
 #отключение запроса "нажмите чтобы загрузиться с cd"
 rm $DEST/efi/microsoft/boot/efisys.bin
-cp  efisys.bin  $DEST/efi/microsoft/boot/efisys.bin
+cp  efisys_noprompt.bin  $DEST/efi/microsoft/boot/efisys.bin
 
 # Модификация Windows PE (boot.wim) напрямую через wimlib-imagex
 echo "[*] Интеграция winpeshl.ini в boot.wim..."
