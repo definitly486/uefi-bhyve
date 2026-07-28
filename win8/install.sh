@@ -96,7 +96,7 @@ if [ -f "$WIM_FILE" ] && [ "$(stat -f%z "$WIM_FILE")" -gt 4294967296 ]; then
     echo "[*] install.wim > 4GB, используем xorriso (UDF)..."
 
 mkisofs -o "$ORIGINAL_ISO" \
-  -v -V "Windows10" \
+  -v -V "Windows8.1" \
   -iso-level 3 \
   -UDF \
   -J \
@@ -110,7 +110,7 @@ mkisofs -o "$ORIGINAL_ISO" \
 else
     echo "[*] install.wim <= 4GB, используем mkisofs..."
 
-    mkisofs -V "Win10_Boot" -UDF -v \
+    mkisofs -V "Win8.1_Boot" -UDF -v \
       -b boot/etfsboot.com \
         -no-emul-boot -boot-load-size 8 \
       -eltorito-alt-boot \
@@ -120,10 +120,10 @@ else
       "$DEST"
 fi
 
-doas rm /ntfs-2TB/vm/win10/win10.img
-truncate -s 55G /ntfs-2TB/vm/win10/win10.img
+doas rm /ntfs-2TB/vm/win8/win8.img
+truncate -s 55G /ntfs-2TB/vm/win8/win8.img
 
-EMPTY_ISO="/ntfs-2TB/vm/win10/empty.iso"
+EMPTY_ISO="/ntfs-2TB/vm/win8/empty.iso"
 
 touch "$EMPTY_ISO"
 
@@ -136,7 +136,7 @@ if [ ! -f "$MARKER" ]; then
 else
     echo "[+] Windows установлена. Подключаем пустой ISO..."
     ln -sfn "$EMPTY_ISO" "$VM_ISO"
-    APP_DISK="-s 3:1,ahci-hd,/bhyve/win10/app.img"
+    APP_DISK="-s 3:1,ahci-hd,/bhyve/win10/app8.1.img"
 fi
 
 # 2. Основной запуск bhyve
@@ -145,7 +145,7 @@ doas bhyve -A -H -P -S \
   -s 1:0,lpc \
   -s 10:0,virtio-net,tap0 \
   -s 5,fbuf,tcp=0.0.0.0:5900,w=1918,h=1058 \
-  -s 3:0,ahci-hd,/ntfs-2TB/vm/win10/win10.img \
+  -s 3:0,ahci-hd,/ntfs-2TB/vm/win8/win8.img \
    $APP_DISK \
   -s 3:2,ahci-cd,"$VM_ISO" \
   -l bootrom,/bhyve/win10/BHYVE_BHF_UEFI.fd \
