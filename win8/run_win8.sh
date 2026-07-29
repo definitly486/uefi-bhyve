@@ -7,7 +7,7 @@ HD=/ntfs-2TB/vm/$VM/$VM.img
 
 
 #UEFI=/home/definitly/2TB/vm/win7/BHYVE_UEFI.fd
-UEFI=BHYVE_UEFI_UHD630.fd
+UEFI=/bhyve/win10/BHYVE_UEFI_UHD630.fd
 
 MEM=8G
 
