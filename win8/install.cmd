@@ -214,14 +214,15 @@ echo =====================================
 
 
 
-  echo Set Sh8 = WshShell.CreateShortcut^("%userprofile%\Desktop\chrome.lnk"^)
-  echo Sh8.TargetPath = "D:\app\Chrome-bin\chrome.exe"
-  echo Sh8.WorkingDirectory = "D:\app\Chrome-bin\"
+  echo Set Sh8 = WshShell.CreateShortcut^("%userprofile%\Desktop\Proxifier.lnk"^)
+  echo Sh8.TargetPath = "D:\app\Proxifier\Proxifier.exe"
+  echo Sh8.WorkingDirectory = "D:\app\Proxifier\"
   echo Sh8.Save
 
-  echo Set Sh9 = WshShell.CreateShortcut^("%userprofile%\Desktop\chrome.lnk"^)
-  echo Sh9.TargetPath = "D:\app\Brave\Brave.exe"
-  echo Sh9.WorkingDirectory = "D:\app\Brave\"
+  echo Set Sh9 = WshShell.CreateShortcut^("%userprofile%\Desktop\Supermium.lnk"^)
+  echo Sh9.TargetPath = "D:\app\Supermium\Supermium (Classic Portable).cmd"
+  echo Sh9.WorkingDirectory = "D:\app\Supermium\"
+  echo Sh9.IconLocation = "D:\app\Supermium\chrome.exe, 0"
   echo Sh9.Save
 
   echo Set Sh10 = WshShell.CreateShortcut^("%userprofile%\Desktop\retrobar.lnk"^)
