@@ -34,7 +34,7 @@ if not exist "%DRIVER_DIR%" (
 
 echo.
 echo Adding and installing clean NVIDIA display driver...
-pnputil /add-driver "%DRIVER_DIR%\igdlh64.inf" /install
+pnputil -i -a "%DRIVER_DIR%\igdlh64.inf"
 set "NVIDIA_ERR=%errorlevel%"
 
 :: Проверка результата
@@ -51,7 +51,7 @@ if "%NVIDIA_ERR%"=="0" (
 echo.
 echo Adding and installing NetKVM drivers...
 if exist "%DRIVER_KVM_DIR%" (
-    pnputil /add-driver "%DRIVER_KVM_DIR%\netkvm.inf" /subdirs /install
+   pnputil -i -a "%DRIVER_KVM_DIR%\netkvm.inf"
 ) else (
     echo WARNING: NetKVM folder not found. Skipping.
 )

@@ -38,7 +38,7 @@
 
                 <ProductKey>
 
-                    <Key>NKJFK-GPHP7-G8C6J-P6JB2-HGV8V</Key>
+                    <Key>XHQ8N-C3MCJ-RQXB6-WCHYG-C9WKB</Key>
 
                     <WillShowUI>Never</WillShowUI>
 
@@ -161,29 +161,17 @@
                 <LocalAccounts>
 
 
-                    <LocalAccount wcm:action="add">
-
-
-                        <Name>vcore</Name>
-
-                        <DisplayName>vcore</DisplayName>
-
-                        <Description>Локальный администратор</Description>
-
-
-                        <Group>Администраторы</Group>
-
-
-                        <Password>
-
-                            <Value>639639</Value>
-
-                            <PlainText>true</PlainText>
-
-                        </Password>
-
-
-                    </LocalAccount>
+               <LocalAccount wcm:action="add">
+    <Name>vcore</Name>
+    <DisplayName>vcore</DisplayName>
+    <Description>Локальный администратор</Description>
+    <!-- Использовать ТОЛЬКО Administrators -->
+    <Group>Administrators</Group> 
+    <Password>
+        <Value>639639</Value>
+        <PlainText>true</PlainText>
+    </Password>
+</LocalAccount>
 
 
                 </LocalAccounts>
