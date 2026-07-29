@@ -70,7 +70,7 @@ cp SwitchToFreeBSD.sh                   "$DEST/"
 cp monitor.sh                           "$DEST/"
 cp LayoutModification.xml               "$DEST/"
 cp autologin.cmd                        "$DEST/"
-cp ei.cfg                               "$DEST/sources"
+cp PID.txt                              "$DEST/sources"
 
 #отключение запроса "нажмите чтобы загрузиться с cd"
 rm $DEST/efi/microsoft/boot/efisys.bin
