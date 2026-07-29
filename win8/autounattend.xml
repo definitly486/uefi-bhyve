@@ -81,27 +81,46 @@
 
 
     <!-- После установки -->
-    <settings pass="specialize">
+<settings pass="specialize">
+
+    <component name="Microsoft-Windows-Shell-Setup"
+               processorArchitecture="amd64"
+               publicKeyToken="31bf3856ad364e35"
+               language="neutral"
+               versionScope="nonSxS">
+
+        <ComputerName>VCORE-PC</ComputerName>
+
+        <RegisteredOwner>vcore</RegisteredOwner>
+
+        <TimeZone>Russian Standard Time</TimeZone>
+
+    </component>
 
 
-        <component name="Microsoft-Windows-Shell-Setup"
-                   processorArchitecture="amd64"
-                   publicKeyToken="31bf3856ad364e35"
-                   language="neutral"
-                   versionScope="nonSxS">
+    <component name="Microsoft-Windows-Deployment"
+               processorArchitecture="amd64"
+               publicKeyToken="31bf3856ad364e35"
+               language="neutral"
+               versionScope="nonSxS">
 
+        <RunSynchronous>
 
-            <ComputerName>VCORE-PC</ComputerName>
+            <RunSynchronousCommand wcm:action="add">
 
-            <RegisteredOwner>vcore</RegisteredOwner>
+                <Order>1</Order>
 
-            <TimeZone>Russian Standard Time</TimeZone>
+                <Path>bcdedit.exe -set testsigning on</Path>
 
+                <Description>Enable Test Signing Mode</Description>
 
-        </component>
+            </RunSynchronousCommand>
 
+        </RunSynchronous>
 
-    </settings>
+    </component>
+
+</settings>
 
 
 
