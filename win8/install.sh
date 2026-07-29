@@ -76,6 +76,12 @@ cp PID.txt                              "$DEST/sources"
 rm $DEST/efi/microsoft/boot/efisys.bin
 cp  efisys_noprompt.bin  $DEST/efi/microsoft/boot/efisys.bin
 
+
+#Удаляем второй индекс для обленгчения iso
+
+wimdelete "$DEST/sources/install.wim" 2
+
+
 # Модификация Windows PE (boot.wim) напрямую через wimlib-imagex
 echo "[*] Интеграция winpeshl.ini в boot.wim..."
 # Получаем общее количество индексов (изображений) внутри WIM
