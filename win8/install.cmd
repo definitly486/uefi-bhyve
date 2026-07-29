@@ -67,6 +67,10 @@ if %NVIDIA_ERR% neq 0 (
 pnputil /add-driver "%DRIVER_VBCABLE_DIR%\vbMmeCable64_win10.inf" /install
 "%SETUP_EXE%" -i -h
 
+
+
+D:\OpenShellSetup_4_4_200.exe /qn ADDLOCAL=StartMenu
+
 echo.
 echo =====================================
 echo Configuring Applications & Profiles
