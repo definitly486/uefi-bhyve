@@ -10,13 +10,23 @@ pci0:0:20:0
 pci0:0:31:3
 "
 
+echo "Sending shutdown to Windows..."
 nohup atexec.py vcore:639639@192.168.8.104 "shutdown /s /f /t 0" >/dev/null 2>&1 &
 
-sleep 1
+echo "Waiting for VM shutdown..."
+
+while pgrep -f "bhyve.*$VM" >/dev/null 2>&1; do
+    sleep 1
+done
+
+echo "VM stopped. Releasing PCI devices..."
 
 for dev in $PPT_DEVICES; do
     echo "Release $dev"
+
     doas devctl clear driver -f "$dev"
+    sleep 1
+
     doas devctl set driver "$dev" none
 done
 
