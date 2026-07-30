@@ -73,9 +73,6 @@ if !errorlevel! neq 0 (
 endlocal
 
 
-:: Копируем MAS_AIO.cmd
-
-copy D:\MAS_AIO.cmd C:\
 
 
 ::копируем LayoutModification.xml
