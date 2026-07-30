@@ -1,4 +1,5 @@
 #!/bin/sh
+
 VM="win8"
 CD=/home/definitly/win8_bootable.iso
 #CD="/home/definitly/2TB/vm/ISO/ru_windows_7_ultimate_with_sp1_x64_dvd_u_677391.iso"
@@ -61,11 +62,11 @@ for arg in "$@"; do
             doas devctl detach pci0:0:20:0
             doas devctl set driver pci0:0:20:0 ppt
 
-            doas devctl detach pci0:0:31:3
-            doas devctl set driver pci0:0:31:3 ppt
+#            doas devctl detach pci0:0:31:3
+#            doas devctl set driver pci0:0:31:3 ppt
 
             USB="-s 11,passthru,0/20/0"
-            USB2="-s 12,passthru,0/31/3"
+#            USB2="-s 12,passthru,0/31/3"
             ;;
     esac
 done
@@ -101,6 +102,7 @@ start_vm () {
             -c $CPU \
             -s 0,hostbridge \
             -s 3,ahci-hd,$HD,sectorsize=512,bootindex=1 \
+            -s 9,hda,play=/dev/dsp,rec=/dev/dsp \
             $CD_ARGS \
             $FBUF_ARGS \
             $GPU_ARGS \
