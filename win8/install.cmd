@@ -219,7 +219,11 @@ echo =====================================
   echo Sh1.IconLocation = "D:\app\firefox-151.0.2.en-US.win32.installer\core\firefox.exe, 0"
   echo Sh1.Save
 
-
+  echo Set Sh21 = WshShell.CreateShortcut^("%userprofile%\Desktop\Mypal Portable.lnk"^)
+  echo Sh21.TargetPath = "D:\app\mypal-78.0.3.en-US.win64\mypal\portable.bat"
+  echo Sh21.WorkingDirectory = "D:\app\mypal-78.0.3.en-US.win64\mypal\"
+  echo Sh21.IconLocation = "D:\app\mypal-78.0.3.en-US.win64\mypal\mypal.exe, 0"
+  echo Sh21.Save
 
   echo Set Sh8 = WshShell.CreateShortcut^("%userprofile%\Desktop\Proxifier.lnk"^)
   echo Sh8.TargetPath = "D:\app\Proxifier\Proxifier.exe"
