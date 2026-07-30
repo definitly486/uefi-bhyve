@@ -14,4 +14,3 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultP
 net use Z: \\192.168.8.101\Share /persistent:yes >nul 2>&1
 
 echo Готово.
-pause
