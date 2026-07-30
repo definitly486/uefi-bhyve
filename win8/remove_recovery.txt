@@ -1,0 +1,5 @@
+delete --recursive Windows/System32/Recovery
+delete --recursive Windows/Web/Screen
+delete --recursive Windows/Web/Wallpaper
+delete --recursive 'Program Files/WindowsApps/Microsoft.XboxLIVEGames_2.0.139.0_x64__8wekyb3d8bbwe'
+delete --recursive 'Program Files/WindowsApps/Microsoft.ZuneVideo_2.6.344.0_x64__8wekyb3d8bbwe'
