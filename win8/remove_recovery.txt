@@ -4,3 +4,5 @@ delete --recursive Windows/Web/Screen
 delete --recursive 'Program Files/WindowsApps/'
 delete --recursive 'Program Files/Internet Explorer/'
 delete --recursive 'Program Files (x86)/Internet Explorer/'
+delete --recursive 'Program Files/Windows Defender/'
+delete --recursive 'Program Files (x86)/Windows Defender/'
