@@ -12,7 +12,7 @@ delete --recursive 'Program Files/Windows Media Player'
 delete --recursive 'Windows/WinStore'
 delete --recursive 'Program Files/Windows Mail'
 delete --recursive 'Program Files (x86)/Windows Mail'
-delete --recursive 'Program Files/Windows Journal'
+
 delete --recursive 'Program Files (x86)/Windows Multimedia Platform'
 
 
