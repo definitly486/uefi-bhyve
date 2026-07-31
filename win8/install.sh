@@ -81,7 +81,7 @@ echo "[*] Интеграция winpeshl.ini в boot.wim..."
 # Получаем общее количество индексов (изображений) внутри WIM
 TOTAL_IMAGES=$(wimlib-imagex info "$WIM_PATH" | grep "Image Count:" | awk '{print $3}')
 
-wimdelete $DEST/sources/install.wim  2 
+#wimdelete $DEST/sources/install.wim  2 
 
 wimupdate $DEST/sources/install.wim 1 < remove_recovery.txt
 
