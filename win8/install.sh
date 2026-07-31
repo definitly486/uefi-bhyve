@@ -143,6 +143,19 @@ else
     APP_DISK="-s 3:1,ahci-hd,/bhyve/win10/app8.1.img"
 fi
 
+
+# Если скрипт запущен с аргументом "gpu", включаем проброс Intel GPU
+GPU_INTEL=""
+if [ "$1" = "gpu" ]; then
+    GPU_INTEL="-s 7,passthru,pci0:0:2:0"
+    echo "[*] Включен проброс Intel GPU."
+    doas devctl clear driver -f pci0:0:2:0
+    doas devctl detach pci0:0:2:0
+    doas devctl set driver pci0:0:2:0 ppt
+fi
+
+
+
 # 2. Основной запуск bhyve
 doas bhyve -A -H -P -S \
   -s 0:0,hostbridge \
@@ -150,6 +163,7 @@ doas bhyve -A -H -P -S \
   -s 10:0,virtio-net,tap0 \
   -s 5,fbuf,tcp=0.0.0.0:5900,w=1918,h=1058 \
   -s 3:0,ahci-hd,/ntfs-2TB/vm/win8/win8.img \
+  $GPU_INTEL \
    $APP_DISK \
   -s 3:2,ahci-cd,"$VM_ISO" \
   -l bootrom,/bhyve/win10/BHYVE_BHF_UEFI.fd \
