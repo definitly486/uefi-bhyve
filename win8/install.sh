@@ -81,8 +81,10 @@ echo "[*] Интеграция winpeshl.ini в boot.wim..."
 # Получаем общее количество индексов (изображений) внутри WIM
 TOTAL_IMAGES=$(wimlib-imagex info "$WIM_PATH" | grep "Image Count:" | awk '{print $3}')
 
-wimupdate /home/definitly/2TB/vm/ISO/win8_iso_copy/sources/install.wim 1 < remove_recovery.txt
-wimupdate /home/definitly/2TB/vm/ISO/win8_iso_copy/sources/install.wim 2 < remove_recovery.txt 
+wimdelete $DEST/sources/install.wim  2 
+
+wimupdate $DEST/sources/install.wim 1 < remove_recovery.txt
+
 
 # Если общее число индексов меньше 2, принудительно используем индекс 1
 if [ "$TOTAL_IMAGES" -lt 2 ]; then

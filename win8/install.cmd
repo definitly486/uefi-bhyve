@@ -14,6 +14,7 @@ if %errorlevel% neq 0 (
 
 
 bcdedit.exe -set testsigning on
+bcdedit.exe -set loadoptions disable_integrity_checks
 
 echo =====================================
 echo NVIDIA & NetKVM driver install script
