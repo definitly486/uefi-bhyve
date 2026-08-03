@@ -9,9 +9,20 @@ pci0:0:2:0
 pci0:0:20:0
 pci0:0:31:3
 "
+IP=$(
+    arp-scan --localnet 2>/dev/null |
+    awk '/NetApp/ { print $1; exit }'
+)
+
+if [ -z "$IP" ]; then
+    echo "NetApp не найден"
+    exit 1
+fi
+
+echo "NetApp: $IP"
 
 echo "Sending shutdown to Windows..."
-nohup atexec.py vcore:639639@192.168.8.104 "shutdown /s /f /t 0" >/dev/null 2>&1 &
+nohup atexec.py vcore:639639@$IP "shutdown /s /f /t 0" >/dev/null 2>&1 &
 
 echo "Waiting for VM shutdown..."
 
