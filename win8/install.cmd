@@ -119,8 +119,8 @@ echo Firewall disabled in registry. Reboot required for full effect.
 
 :: Активация 
 
-slmgr /ipk GCRJD-8NW9H-F2CDX-CCM8D-9D6T
-slmgr /skms kms.kini24.ru
+slmgr /ipk 6N47T-MHPWH-X4PD2-PD63D-KKWK3
+slmgr /skms kms7.msguides.com
 slmgr /ato
 
 
